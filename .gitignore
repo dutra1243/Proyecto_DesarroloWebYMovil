@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.DS_Store
+api-node/node_modules/
+api-node/uploads/
