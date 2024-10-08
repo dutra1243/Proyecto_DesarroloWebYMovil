@@ -1,4 +1,5 @@
-import React from 'react'
+import { PostHeader } from './postHeader/PostHeader';
+import { PostFooter } from './postFooter/PostFooter';
 
 export const Post = () => {
     return (
