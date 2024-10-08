@@ -19,7 +19,7 @@ function App() {
     children,
     redirectPath = '/login'
   }: ProtectedRouteProps) => {
-    if (!{ userLoggedIn }) {
+    if (!userLoggedIn) {
       return <Navigate to={redirectPath} replace />
     }
     return children
