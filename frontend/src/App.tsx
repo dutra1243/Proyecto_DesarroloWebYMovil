@@ -8,7 +8,7 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 
 function App() {
 
-  const [loggedIn, logIn] = useState(false) //temp
+  const [loggedIn, logIn] = useState(true) //temp
 
   type ProtectedRouteProps = {
     userLoggedIn: boolean;

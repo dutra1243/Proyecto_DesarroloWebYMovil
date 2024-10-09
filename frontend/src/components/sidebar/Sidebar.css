@@ -1,0 +1,23 @@
+.sidebar {
+    width: 35vh;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.logout {
+    margin-top: auto;
+    margin-bottom: 5vh;
+}
