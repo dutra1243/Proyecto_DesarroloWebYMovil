@@ -26,5 +26,5 @@ dist-ssr
 .DS_Store
 api-node/node_modules/
 api-node/uploads/
-mongodb-data/
-backend/mongodb-data/
+#mongodb-data/
+#backend/mongodb-data/
