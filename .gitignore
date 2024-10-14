@@ -27,3 +27,4 @@ dist-ssr
 api-node/node_modules/
 api-node/uploads/
 mongodb-data/
+backend/mongodb-data/
