@@ -26,7 +26,7 @@ const runSeed = async (req, res) => {
                 await Post.create(post);
             }
         }
-        // res.status(201).json({message: 'Seed data created successfully'});
+
         res.status(201).json({message: 'Seed data created successfully'});
     } catch
         (error) {

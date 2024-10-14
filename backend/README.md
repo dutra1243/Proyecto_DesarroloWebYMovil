@@ -1,26 +1,40 @@
-# Fake Instagram
+# Función `runSeed`
 
 ## Descripción
 
-Servidor web creado con Express + MongoDB con la finalidad de dar soporte al proyecto final de la materia Desarrollo Web y Mobile 2024
+La función `runSeed` genera datos de prueba aleatorios para la base de datos MongoDB de una aplicación que gestiona usuarios y publicaciones (posts). Utiliza los modelos `User` y `Post` para insertar usuarios y sus respectivas publicaciones, empleando la biblioteca `faker` para generar datos falsos (como nombres de usuario, correos electrónicos, contraseñas y descripciones).
 
-## Instalar dependencias
+Además, utiliza un generador de imágenes aleatorias de la URL `https://picsum.photos/200` para las imágenes de las publicaciones. La cantidad de usuarios y publicaciones creadas es configurable a través de un parámetro en la solicitud HTTP.
 
-- Ejecutar npm install dentro de la carpeta api-node
+## Uso
 
-## Instalar MongoDB local
+### Pre-requisito
 
-- Navegar a [https://www.mongodb.com/docs/manual/installation/](https://www.mongodb.com/docs/manual/installation/) y elegir la versión Community para el SO que corresponda. Seguir las instrucciones de instalación que allí aparecen. Las instrucciones de instalación también explican cómo levantar una instancia de MongoDB con la cual conectarse.
+Antes de ejecutar el seed, es **necesario que la base de datos MongoDB esté corriendo**. Para ello, debes ejecutar el comando:
 
-## Instalar MongoDB Compass
+```bash
+docker-compose up
+```
 
-- MongoDB Compass es una GUI de escritorio, que permite conectarse con una instancia de MongoDB y poder explorar las diferentes colecciones de información. Para instalarlo, navegar a [https://www.mongodb.com/try/download/shell](https://www.mongodb.com/try/download/shell) y seguir los pasos.
+### Endpoint
 
-## Levantar el proyecto
+`POST /seed/:qty`
 
-- Una vez instaladas las dependencias del servidor y se tiene un servicio de MongoDB levantado, editar el archivo .env cambiando el valor de las variables MONGO_URI y MONGO_PASS por los valores correspondientes a su instancia local (por defecto: mongodb://localhost:27017/instagram y password vacío).
-- Ejecutar npm run start para levantar el servidor
+- **:qty** - Parámetro que especifica la cantidad de usuarios a generar. Cada usuario tendrá entre 1 y 20 publicaciones aleatorias.
 
-## Documentación del servidor
+### Ejemplo de Uso
 
-- El servidor cuenta con un Swagger, que permite explorar los diferentes endpoints que el servidor proveé. Para acceder al mismo, navegar a http://localhost:3001/api-docs/
+Si deseas generar 10 usuarios y sus publicaciones, puedes realizar una solicitud `POST` al siguiente endpoint:
+
+```
+localhost:3001/api/seed/users/10
+```
+
+### Respuesta
+
+Si los datos de prueba se generan correctamente, la API devolverá un mensaje de éxito:
+
+```json
+{
+  "message": "Seed data created successfully"
+}
