@@ -26,6 +26,11 @@ const runSeed = async (req, res) => {
                 await Post.create(post);
             }
         }
+        await User.create({
+            username: 'prueba',
+            email: 'prueba@prueba.com',
+            password: 'prueba',
+        })
 
         res.status(201).json({message: 'Seed data created successfully'});
     } catch
