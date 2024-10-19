@@ -11,7 +11,7 @@ function App() {
 
     const token = useSelector((state) => state.auth.token);
     // const token = sessionStorage.getItem('token');
-    const loggedIn = token !== null;
+    const loggedIn = token !== null && token !== undefined;
 
     console.log({loggedIn})
     console.log({token})
