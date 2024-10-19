@@ -49,8 +49,18 @@
     gap: 1.5em;
     max-width: 20em;
     margin: 0 auto;
-    padding: 2vh;
+    padding: 2em;
     background-color: #f9f9f9;
     border-radius: 1vh;
     padding: 5vh;
+}
+
+.fakegram-name {
+    font-family: "Playwrite GB S", cursive;
+    background: linear-gradient(90deg, #8e2de2, #f64f59, #4facfe, #f093fb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.8; /* Ajusta este valor según necesites */
+    /*box-decoration-break: clone;*/
+    /*-webkit-box-decoration-break: clone;*/
 }

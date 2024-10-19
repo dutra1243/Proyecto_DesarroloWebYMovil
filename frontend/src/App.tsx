@@ -10,7 +10,11 @@ import {useSelector} from "react-redux";
 function App() {
 
     const token = useSelector((state) => state.auth.token);
+    // const token = sessionStorage.getItem('token');
     const loggedIn = token !== null;
+
+    console.log({loggedIn})
+    console.log({token})
 
 
     type ProtectedRouteProps = {
@@ -30,6 +34,17 @@ function App() {
         return children
     }
 
+    const ProtectedRoute = ({
+                                userLoggedIn,
+                                children,
+                                redirectPath = '/'
+                            }: ProtectedRouteProps) => {
+        if (userLoggedIn) {
+            return <Navigate to={redirectPath} replace/>
+        }
+        return children
+    }
+
 
     const router = createBrowserRouter([
         {
@@ -38,7 +53,7 @@ function App() {
         },
         {
             path: '/login',
-            element: <Login/>
+            element: <ProtectedRoute userLoggedIn={loggedIn}><Login/></ProtectedRoute>
         },
         {
             path: '/feed',
