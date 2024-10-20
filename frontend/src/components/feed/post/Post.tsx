@@ -1,12 +1,19 @@
 import { PostHeader } from './postHeader/PostHeader';
 import { PostFooter } from './postFooter/PostFooter';
+import { PostDTO } from '../Feed';
+import './Post.css'
 
-export const Post = () => {
+export const Post = (props: PostDTO) => {
+
+
+
     return (
         <>
-            <PostHeader />
-            <img src="https://via.placeholder.com/150" alt="post" />
-            <PostFooter />
+            <div className='post' >
+                <PostHeader user={props.user} createdAt={props.createdAt} />
+                <img src={props.imageUrl} alt="post" />
+                <PostFooter username={props.user.username} caption={props.caption} likes={props.likes} comments={props.comments} />
+            </div>
         </>
     )
 }

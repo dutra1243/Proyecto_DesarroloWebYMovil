@@ -1,11 +1,11 @@
-import {useState} from 'react'
-import {Feed} from './components/feed/Feed'
-import {Login} from './components/login/Login'
-import {Register} from './components/register/Register'
-import {Profile} from './components/profile/Profile'
+import { useState } from 'react'
+import { Feed } from './components/feed/Feed'
+import { Login } from './components/login/Login'
+import { Register } from './components/register/Register'
+import { Profile } from './components/profile/Profile'
 import './App.css'
-import {createBrowserRouter, Navigate, RouterProvider} from 'react-router-dom'
-import {useSelector} from "react-redux";
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { useSelector } from "react-redux";
 
 function App() {
 
@@ -13,8 +13,8 @@ function App() {
     // const token = sessionStorage.getItem('token');
     const loggedIn = token !== null && token !== undefined;
 
-    console.log({loggedIn})
-    console.log({token})
+    console.log({ loggedIn })
+    console.log({ token })
 
 
     type ProtectedRouteProps = {
@@ -24,23 +24,23 @@ function App() {
     }
 
     const ProtectedLogin = ({
-                                userLoggedIn,
-                                children,
-                                redirectPath = '/login'
-                            }: ProtectedRouteProps) => {
+        userLoggedIn,
+        children,
+        redirectPath = '/login'
+    }: ProtectedRouteProps) => {
         if (!userLoggedIn) {
-            return <Navigate to={redirectPath} replace/>
+            return <Navigate to={redirectPath} replace />
         }
         return children
     }
 
     const ProtectedRoute = ({
-                                userLoggedIn,
-                                children,
-                                redirectPath = '/'
-                            }: ProtectedRouteProps) => {
+        userLoggedIn,
+        children,
+        redirectPath = '/'
+    }: ProtectedRouteProps) => {
         if (userLoggedIn) {
-            return <Navigate to={redirectPath} replace/>
+            return <Navigate to={redirectPath} replace />
         }
         return children
     }
@@ -49,28 +49,31 @@ function App() {
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <ProtectedLogin userLoggedIn={loggedIn}><Feed/></ProtectedLogin>
+            element: <ProtectedLogin userLoggedIn={loggedIn}><Feed /></ProtectedLogin>
         },
         {
             path: '/login',
-            element: <ProtectedRoute userLoggedIn={loggedIn}><Login/></ProtectedRoute>
+            element: <ProtectedRoute userLoggedIn={loggedIn}><Login /></ProtectedRoute>
         },
         {
             path: '/feed',
-            element: <ProtectedLogin userLoggedIn={loggedIn}><Feed/></ProtectedLogin>
+            element:
+                //<ProtectedLogin userLoggedIn={loggedIn}>
+                <Feed />
+            //</ProtectedLogin>
         },
         {
             path: '/profile',
-            element: <ProtectedLogin userLoggedIn={loggedIn}><Profile/></ProtectedLogin>
+            element: <ProtectedLogin userLoggedIn={loggedIn}><Profile /></ProtectedLogin>
         },
         {
             path: '/register',
-            element: <Register/>
+            element: <Register />
         }
     ])
     return (
         <>
-            <RouterProvider router={router}/>
+            <RouterProvider router={router} />
         </>
     )
 }
