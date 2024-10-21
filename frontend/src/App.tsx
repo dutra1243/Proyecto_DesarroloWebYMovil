@@ -58,9 +58,9 @@ function App() {
         {
             path: '/feed',
             element:
-                //<ProtectedLogin userLoggedIn={loggedIn}>
-                <Feed />
-            //</ProtectedLogin>
+                <ProtectedLogin userLoggedIn={loggedIn}>
+                    <Feed />
+                </ProtectedLogin>
         },
         {
             path: '/profile',
