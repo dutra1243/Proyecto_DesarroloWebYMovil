@@ -9,10 +9,12 @@ const runSeed = async (req, res) => {
         await User.deleteMany();
         await Post.deleteMany();
         for (let i = 0; i < count; i++) {
+            const profilePictureGeneratorURL = 'https://robohash.org/' + faker.animal.dog() + '.png'
             const user = await User.create({
                 username: faker.internet.userName(),
                 email: faker.internet.email(),
                 password: faker.internet.password(),
+                profilePicture: profilePictureGeneratorURL,
             })
 
             const imgQty = Math.floor(Math.random() * 20) + 1;
