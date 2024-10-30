@@ -1,6 +1,11 @@
 import React from 'react'
 
-export const UserInfo = () => {
+type UserInfoProps = {
+    username: string;
+    profilePicture: string;
+}
+
+export const UserInfo = ({ username, profilePicture }: UserInfoProps) => {
     return (
         <div>UserInfo</div>
     )
