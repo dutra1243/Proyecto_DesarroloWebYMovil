@@ -1,6 +1,6 @@
 import { PostHeader } from './postHeader/PostHeader';
 import { PostFooter } from './postFooter/PostFooter';
-import { PostDTO } from '../Feed';
+import { PostDTO } from '../../models/post';
 import './Post.css'
 
 export const Post = (props: PostDTO) => {

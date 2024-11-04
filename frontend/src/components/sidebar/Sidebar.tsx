@@ -5,7 +5,7 @@ import {Logout} from "../logout/Logout.tsx";
 export const Sidebar = () => {
     return (
         <div className='sidebar'>
-            <img src="/vite.svg" alt="vite logo"/>
+            <img src="/fakegram.png" alt="vite logo"/>
             <div className='links'>
                 <Link to='/'>Home</Link>
                 <Link to='/profile'>Profile</Link>

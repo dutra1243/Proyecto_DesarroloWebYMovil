@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Sidebar } from '../sidebar/Sidebar'
-import { Post } from './post/Post'
+import { Post } from '../post/Post'
 
 export interface PostDTO {
     _id: string;
@@ -22,7 +22,7 @@ export const Feed = () => {
 
     const [posts, setPosts] = useState<PostDTO[]>()
 
-    const token = useSelector((state) => state.auth.token)
+    const token = useSelector((state : any) => state.auth.token)
 
     useEffect(() => {
 
