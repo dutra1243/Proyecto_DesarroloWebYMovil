@@ -9,10 +9,10 @@ const getUserProfile = async (req, res) => {
             .populate("friends", "username profilePicture");
 
         if (!user) {
-            return res.status(404).json({ message: "Usuario no encontrado" });
+            return res.status(404).json({message: "Usuario no encontrado"});
         }
 
-        const posts = await Post.find({ user: req.params.id }).sort({
+        const posts = await Post.find({user: req.params.id}).sort({
             createdAt: -1,
         });
 
@@ -22,7 +22,7 @@ const getUserProfile = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error del servidor" });
+        res.status(500).json({message: "Error del servidor"});
     }
 };
 
@@ -33,7 +33,7 @@ const getAllUsers = async (req, res) => {
         res.status(200).json(users);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error del servidor" });
+        res.status(500).json({message: "Error del servidor"});
     }
 };
 
@@ -43,11 +43,11 @@ const addFriend = async (req, res) => {
         const friend = await User.findById(req.params.friendId);
 
         if (!friend) {
-            return res.status(404).json({ message: "Usuario no encontrado" });
+            return res.status(404).json({message: "Usuario no encontrado"});
         }
 
         if (user.friends.includes(friend._id)) {
-            return res.status(400).json({ message: "Este usuario ya es tu amigo" });
+            return res.status(400).json({message: "Este usuario ya es tu amigo"});
         }
 
         user.friends.push(friend._id);
@@ -56,10 +56,10 @@ const addFriend = async (req, res) => {
         friend.friends.push(user._id);
         await friend.save();
 
-        res.status(200).json({ message: "Amigo agregado correctamente" });
+        res.status(200).json({message: "Amigo agregado correctamente"});
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error del servidor" });
+        res.status(500).json({message: "Error del servidor"});
     }
 };
 
@@ -69,11 +69,11 @@ const removeFriend = async (req, res) => {
         const friend = await User.findById(req.params.friendId);
 
         if (!friend) {
-            return res.status(404).json({ message: "Usuario no encontrado" });
+            return res.status(404).json({message: "Usuario no encontrado"});
         }
 
         if (!user.friends.includes(friend._id)) {
-            return res.status(400).json({ message: "Este usuario no es tu amigo" });
+            return res.status(400).json({message: "Este usuario no es tu amigo"});
         }
 
         // Remover el amigo del array de amigos del usuario
@@ -82,10 +82,10 @@ const removeFriend = async (req, res) => {
         );
         await user.save();
 
-        res.status(200).json({ message: "Amigo eliminado correctamente" });
+        res.status(200).json({message: "Amigo eliminado correctamente"});
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error del servidor" });
+        res.status(500).json({message: "Error del servidor"});
     }
 };
 
@@ -94,7 +94,7 @@ const updateUserProfile = async (req, res) => {
         const user = await User.findById(req.user._id);
 
         if (!user) {
-            return res.status(404).json({ message: "Usuario no encontrado" });
+            return res.status(404).json({message: "Usuario no encontrado"});
         }
 
         if (req.body.username) {
@@ -120,7 +120,7 @@ const updateUserProfile = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error del servidor" });
+        res.status(500).json({message: "Error del servidor"});
     }
 };
 
