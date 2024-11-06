@@ -28,10 +28,10 @@ const registerUser = async (req, res) => {
 
 // Login
 const loginUser = async (req, res) => {
-    console.log('loginUser');
     const {email, password} = req.body;
+    const emailUser = email.toLowerCase();
     try {
-        const user = await User.findOne({email});
+        const user = await User.findOne({email: emailUser});
         setTimeout(async () => {
             if (user && (await user.matchPassword(password))) {
                 res.json({
