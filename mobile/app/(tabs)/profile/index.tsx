@@ -2,6 +2,7 @@ import {Text, SafeAreaView} from 'react-native';
 import {Button} from "react-native-paper";
 import {useDispatch} from "react-redux";
 import {logoutThunk} from "@/store/authSlice";
+import {router} from "expo-router";
 
 export default function Profile() {
     const dispatch = useDispatch();
@@ -9,6 +10,7 @@ export default function Profile() {
 
     const handleLogout = async () => {
         await dispatch(logoutThunk());
+        router.replace("/");
     }
 
     return (

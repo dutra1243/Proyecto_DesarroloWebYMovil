@@ -4,6 +4,7 @@ import {router} from "expo-router";
 import {useDispatch} from "react-redux";
 import {loginThunk} from "@/store/authSlice";
 import {useState} from "react";
+import GradientText from "@/components/GradientText";
 
 export default function SignIn() {
     const dispatch = useDispatch();
@@ -25,20 +26,10 @@ export default function SignIn() {
     }
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{
-                flex: 1,
-                justifyContent: "center",
-                marginHorizontal: 16,
-                gap: 16,
-            }}>
-                <Text
-                    style={{
-                        fontSize: 24,
-                        textAlign: "center",
-                    }}
-                >
+            <View style={styles.container}>
+                <GradientText colors={['#8e2de2', '#f64f59', '#4facfe', '#f093fb']} style={styles.title}>
                     Fakegram
-                </Text>
+                </GradientText>
                 <TextInput
                     mode="outlined"
                     label="Email"
@@ -60,4 +51,18 @@ export default function SignIn() {
             </View>
         </SafeAreaView>
     );
+}
+
+const styles = {
+    container: {
+        flex: 1,
+        marginHorizontal: 16,
+        justifyContent: 'center',
+        gap: 20,
+    },
+    title: {
+        fontSize: 55,
+        fontFamily: "Custom",
+        lineHeight: 150,
+    },
 }
