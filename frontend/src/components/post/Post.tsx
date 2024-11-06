@@ -1,7 +1,8 @@
 import { PostHeader } from './postHeader/PostHeader';
 import { PostFooter } from './postFooter/PostFooter';
+import { PostDTO } from '../../models/post';
 
-export const Post = () => {
+export const Post = (props: PostDTO) => {
     return (
         <>
             <PostHeader />
