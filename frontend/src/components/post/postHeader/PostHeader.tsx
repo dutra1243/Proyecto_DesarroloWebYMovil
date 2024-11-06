@@ -22,3 +22,4 @@ export const PostHeader = (props: {
             </div>
         </div>
     );
+}
