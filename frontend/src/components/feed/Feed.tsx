@@ -2,21 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Sidebar } from '../sidebar/Sidebar'
 import { Post } from '../post/Post'
-
-export interface PostDTO {
-    _id: string;
-    user: {
-        _id: string,
-        username: string,
-        profilePicture: string
-    };
-    imageUrl: string;
-    caption: string;
-    comments: any[];
-    likes: any[];
-    createdAt: string;
-    __v: number;
-}
+import { PostDTO } from '../../models/post'
 
 export const Feed = () => {
 

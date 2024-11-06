@@ -33,6 +33,26 @@
 .dateTime {
     margin-left: auto;
     font-size: 0.875rem;
-    color: rgb(0, 0, 0);
+    color: rgb(21, 20, 20);
     font-style: italic;
+}
+
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #3f0c0c;
+    border-radius: 5px;
+}
+
+.buttonComentar {
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #040d44;
+    color: white;
+}
+
+button:hover {
+    background-color: #3077c3;
 }

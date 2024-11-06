@@ -10,15 +10,15 @@ export const PostHeader = (props: {
 }) => {
 
     const creation = props.createdAt.split('T');
-    const date = creation[0];
-    const time = creation[1].split('.')[0].split(':').slice(0, 2).join(':'); 
+    const date = creation[0].split('-').join('/');
+    const time = creation[1].split('.')[0].split(':').slice(0, 2).join(':');
 
     return (
         <div className='post'>
             <div className='postHeader'>
                 <img src={props.user.profilePicture || "/vite.svg"} alt="profilePicture" className='profilePicture' />
                 <h2 className='username'>{props.user.username}</h2>
-                <p className='dateTime'>{date} - [{time}]</p>
+                <p className='dateTime'>{date} - {time}</p>
             </div>
         </div>
     );
