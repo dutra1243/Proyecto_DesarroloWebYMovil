@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    profilePicture: { type: String, default: '' },
-    createdAt: { type: Date, default: Date.now }
+    username: {type: String, required: true, unique: true},
+    email: {type: String, required: true, unique: true},
+    password: {type: String, required: true},
+    profilePicture: {type: String, default: ''},
+    createdAt: {type: Date, default: Date.now},
+    friends: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 });
 
 // Método para comparar contraseñas

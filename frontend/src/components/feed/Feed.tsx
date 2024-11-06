@@ -1,5 +1,5 @@
 import { Sidebar } from '../sidebar/Sidebar'
-import { Post } from './post/Post'
+import { Post } from '../post/Post'
 
 export const Feed = () => {
     return (
