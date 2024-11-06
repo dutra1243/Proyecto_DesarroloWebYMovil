@@ -1,7 +1,28 @@
 import React from 'react'
+import {EditProfileModal} from './EditProfileModal';
 
-export const UserInfo = () => {
+type UserInfoProps = {
+    username: string;
+    profilePicture: string,
+    isEditable: boolean;
+}
+
+export const UserInfo = ({username, profilePicture, isEditable}: UserInfoProps) => {
+
+    console.log(username, profilePicture, isEditable);
+
+    const [showModal, setShowModal] = React.useState(false);
     return (
-        <div>UserInfo</div>
+        <div className="user-info">
+            <img src={profilePicture} alt="Profile Picture"/>
+            <h2>{username}</h2>
+            {isEditable && (
+                <>
+                    <button onClick={() => setShowModal(true)}>Edit Profile</button>
+                    {showModal && <EditProfileModal username={username} profilePicture={profilePicture}
+                                                    toggleModal={setShowModal}/>}
+                </>
+            )}
+        </div>
     )
 }

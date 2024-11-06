@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 function App() {
 
-    const token = useSelector((state) => state.auth.token);
+    const token = useSelector((state: any) => state.auth.token);
     // const token = sessionStorage.getItem('token');
     const loggedIn = token !== null && token !== undefined;
 
@@ -57,13 +57,10 @@ function App() {
         },
         {
             path: '/feed',
-            element:
-                <ProtectedLogin userLoggedIn={loggedIn}>
-                    <Feed />
-                </ProtectedLogin>
+            element: <ProtectedLogin userLoggedIn={loggedIn}><Feed /></ProtectedLogin>
         },
         {
-            path: '/profile',
+            path: '/profile/:id',
             element: <ProtectedLogin userLoggedIn={loggedIn}><Profile /></ProtectedLogin>
         },
         {

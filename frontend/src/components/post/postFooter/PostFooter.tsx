@@ -40,6 +40,3 @@ export const PostFooter = (props: {
         </>
     );
 };
-
-
-
