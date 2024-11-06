@@ -55,8 +55,9 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.user = action.payload.user;
             state.token = action.payload.token;
-            AsyncStorage.setItem("token", action.payload.token);
-            console.log('Token del asyncstorage: ', AsyncStorage.getItem("token"));
+            AsyncStorage.setItem("token", action.payload.token).then(() => {
+                console.log("Token guardado en AsyncStorage:", action.payload.token);
+            });
         },
         loginFailure: (state, action) => {
             state.isLoading = false;
@@ -67,6 +68,7 @@ const authSlice = createSlice({
             state.token = null;
             state.error = null;
             AsyncStorage.removeItem("token");
+            console.log("Token eliminado de AsyncStorage");
         },
     },
     extraReducers: (builder) => {
