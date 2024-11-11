@@ -7,12 +7,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 export const PostFooter = ({
+    _id,
     username,
     caption,
     likes,
     comments,
     onAddComment
 }: {
+    _id: string;
     username: string;
     caption: string;
     likes: any[];
@@ -30,7 +32,7 @@ export const PostFooter = ({
 
     const handleAddComment = () => {
         if (newComment.trim()) {
-            fetch("http://localhost:3001/api/posts/67143c8cb2e0b6b3cec140b6/comments", {
+            fetch(`http://localhost:3001/api/posts/${_id}/comments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,7 +60,21 @@ export const PostFooter = ({
         if (likes.includes(username)) {
             fetch("remover like")
         }
-        fetch("agregar like")
+        fetch(`http://localhost:3001/api/posts/${_id}/comments`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+
+            })
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            })
+
     }
 
     if (likes.length) {

@@ -21,6 +21,7 @@ export const Post = (props: PostDTO) => {
                 <PostHeader user={props.user} createdAt={props.createdAt} />
                 <img src={props.imageUrl} alt="post" />
                 <PostFooter
+                    _id={props._id}
                     username={props.user.username}
                     caption={props.caption}
                     likes={props.likes}
