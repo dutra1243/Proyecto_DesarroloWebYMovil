@@ -64,6 +64,7 @@ export const PostFooter = ({
     if (likes.length) {
         console.log(likes)
     }
+    // now working
     // if (comments.length) {
     //     console.log(comments)
     // }
