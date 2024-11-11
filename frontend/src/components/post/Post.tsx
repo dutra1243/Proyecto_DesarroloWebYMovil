@@ -6,10 +6,13 @@ import './Post.css';
 import React, { useState } from 'react';
 
 export const Post = (props: PostDTO) => {
+
     const [comments, setComments] = useState(props.comments || []);
 
     const handleAddComment = (newComment: string) => {
-        setComments([...comments, newComment]); 
+        setComments([...comments, newComment]);
+
+        console.log('Adding comment:', newComment);
     };
 
     return (
@@ -22,7 +25,7 @@ export const Post = (props: PostDTO) => {
                     caption={props.caption}
                     likes={props.likes}
                     comments={comments}
-                    onAddComment={handleAddComment} 
+                    onAddComment={handleAddComment}
                 />
             </div>
         </>

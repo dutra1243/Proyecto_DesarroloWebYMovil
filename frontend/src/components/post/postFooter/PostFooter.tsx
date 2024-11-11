@@ -1,13 +1,27 @@
 // postFooter.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-export const PostFooter = (props: {
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
+
+export const PostFooter = ({
+    username,
+    caption,
+    likes,
+    comments,
+    onAddComment
+}: {
     username: string;
     caption: string;
     likes: any[];
     comments: any[];
     onAddComment: (comment: string) => void;
 }) => {
+
+    const token = useSelector((state: any) => state.auth.token)
+
     const [newComment, setNewComment] = useState('');
 
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,19 +30,63 @@ export const PostFooter = (props: {
 
     const handleAddComment = () => {
         if (newComment.trim()) {
-            props.onAddComment(newComment);
-            setNewComment(''); 
+            fetch("http://localhost:3001/api/posts/67143c8cb2e0b6b3cec140b6/comments", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    content: newComment
+                })
+            }
+            ).then((res) => res.json())
+                .then((data) => {
+                    onAddComment(data);
+
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            setNewComment('');
+        } else {
+            alert('El comentario no puede estar vacío')
         }
     };
+
+    const handleClick = () => {
+        if (likes.includes(username)) {
+            fetch("remover like")
+        }
+        fetch("agregar like")
+    }
+
+    if (likes.length) {
+        console.log(likes)
+    }
+    // if (comments.length) {
+    //     console.log(comments)
+    // }
 
     return (
         <>
             <div className='postFooter'>
-                <p><span style={{ fontWeight: 'bold' }}>{props.username}</span> {props.caption}</p>
+                <p><span style={{ fontWeight: 'bold' }}>{username}</span> {caption}</p>
                 <div className='likesComments'>
-                    <p>{props.likes.length} likes</p>
-                    <p>{props.comments.length} comments</p>
+                    {(likes.includes(username)) ?
+                        <div>
+                            <FavoriteIcon onClick={handleClick} />
+                            <p>{likes.length} likes</p>
+                        </div> :
+                        <div>
+                            <FavoriteBorderIcon onClick={handleClick} />
+                            <p>{likes.length} likes</p>
+                        </div>
+                    }
+                    <p>{comments.length} comments</p>
+                    {comments.map((comment) => <p key={comment._id} >{comment.content}</p>)}
                 </div>
+
                 <input
                     type="text"
                     value={newComment}
