@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { IconButton } from '@mui/material';
 
 
 export const PostFooter = ({
@@ -12,7 +13,8 @@ export const PostFooter = ({
     caption,
     likes,
     comments,
-    onAddComment
+    onAddComment,
+    onAddLike
 }: {
     _id: string;
     username: string;
@@ -20,9 +22,15 @@ export const PostFooter = ({
     likes: any[];
     comments: any[];
     onAddComment: (comment: string) => void;
+    onAddLike: (likeID: string[]) => void;
 }) => {
 
     const token = useSelector((state: any) => state.auth.token)
+
+    const user = useSelector((state: any) => state.auth.user)
+
+    const [liked, setLiked] = useState(likes.includes(user._id));
+    const [likesLength, setLikesLength] = useState(likes.length);
 
     const [newComment, setNewComment] = useState('');
 
@@ -57,47 +65,60 @@ export const PostFooter = ({
     };
 
     const handleClick = () => {
-        if (likes.includes(username)) {
-            fetch("remover like")
+        if (liked) {
+            fetch(`http://localhost:3001/api/posts/${_id}/like`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+
+                })
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    onAddLike(data.likes);
+                }).catch((error) => {
+                    console.error('Error:', error);
+                })
+            setLiked(false);
+            setLikesLength(likesLength - 1);
+        } else {
+            fetch(`http://localhost:3001/api/posts/${_id}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+
+                })
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    onAddLike(data.likes);
+                }).catch((error) => {
+                    console.error('Error:', error);
+                })
+            setLiked(true);
+            setLikesLength(likesLength + 1);
         }
-        fetch(`http://localhost:3001/api/posts/${_id}/comments`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-
-            })
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-            })
-
     }
-
-    if (likes.length) {
-        console.log(likes)
-    }
-    // now working
-    // if (comments.length) {
-    //     console.log(comments)
-    // }
 
     return (
         <>
             <div className='postFooter'>
                 <p><span style={{ fontWeight: 'bold' }}>{username}</span> {caption}</p>
                 <div className='likesComments'>
-                    {(likes.includes(username)) ?
+                    {(liked) ?
                         <div>
-                            <FavoriteIcon onClick={handleClick} />
-                            <p>{likes.length} likes</p>
+                            <FavoriteIcon color="secondary" onClick={handleClick} />
+                            <p>{likesLength} likes</p>
                         </div> :
                         <div>
-                            <FavoriteBorderIcon onClick={handleClick} />
-                            <p>{likes.length} likes</p>
+                            <FavoriteBorderIcon color="secondary" className='likeIcon' onClick={handleClick} />
+                            <p>{likesLength} likes</p>
                         </div>
                     }
                     <p>{comments.length} comments</p>

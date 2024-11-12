@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { baseUrl } from '../../../common/constants'
-import { PostDTO } from '../../../models/post'
+import { PostDTO } from '../../../models/post/PostDTO'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 

@@ -1,7 +1,7 @@
 // post.tsx
 import { PostHeader } from './postHeader/PostHeader';
 import { PostFooter } from './postFooter/PostFooter';
-import { PostDTO } from '../../models/post';
+import { PostDTO } from '../../models/post/PostDTO';
 import './Post.css';
 import React, { useState } from 'react';
 
@@ -9,10 +9,14 @@ export const Post = (props: PostDTO) => {
 
     const [comments, setComments] = useState(props.comments || []);
 
+    const [likes, setLikes] = useState(props.likes || []);
+
+    const handleAddLike = (newLikeID: string[]) => {
+        setLikes(newLikeID);
+    };
+
     const handleAddComment = (newComment: string) => {
         setComments([...comments, newComment]);
-
-        console.log('Adding comment:', newComment);
     };
 
     return (
@@ -27,6 +31,7 @@ export const Post = (props: PostDTO) => {
                     likes={props.likes}
                     comments={comments}
                     onAddComment={handleAddComment}
+                    onAddLike={handleAddLike}
                 />
             </div>
         </>
