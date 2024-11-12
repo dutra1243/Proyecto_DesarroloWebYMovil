@@ -13,7 +13,7 @@ export default function Index() {
 
     const {} = useFonts({
         Custom: require("../assets/fonts/Custom-font.ttf")
-    })
+    });
 
     const handleLogin = () => {
         router.replace("/(auth)/signIn");
@@ -35,11 +35,9 @@ export default function Index() {
             } catch (error) {
                 console.error("Error al recuperar el token:", error);
             } finally {
-                setLoading(false); // Indica que hemos terminado de buscar el token
+                setLoading(false);
             }
         };
-        console.log(styles.title.fontFamily)
-
         fetchToken();
     }, []);
 
@@ -53,38 +51,52 @@ export default function Index() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <GradientText colors={['#8e2de2', '#f64f59', '#4facfe', '#f093fb']} style={styles.title}>
-                Fakegram
-            </GradientText>
-
-            <Button mode="contained-tonal"
-                    buttonColor={"rgba(79,172,254,0.09)"}
-                    onPress={handleRegister}
-            >
-                Crear una cuenta
-            </Button>
-            <Button
-                mode="contained-tonal"
-                buttonColor={Colors.lightSkyBlue}
-                onPress={handleLogin}
-            >
-                Ya estoy registrado
-            </Button>
-            {token && <Text>Token: {token}</Text>}
+            <View style={styles.topSpace}/>
+            <View style={styles.titleContainer}>
+                <GradientText colors={['#8e2de2', '#f64f59', '#4facfe', '#f093fb']} style={styles.title}>
+                    Fakegram
+                </GradientText>
+            </View>
+            <View style={styles.contentContainer}>
+                <Button mode="contained-tonal"
+                        buttonColor={"rgba(79,172,254,0.09)"}
+                        onPress={handleRegister}
+                >
+                    Crear una cuenta
+                </Button>
+                <Button
+                    mode="contained-tonal"
+                    buttonColor={Colors.lightSkyBlue}
+                    onPress={handleLogin}
+                >
+                    Ya estoy registrado
+                </Button>
+            </View>
         </SafeAreaView>
     );
 }
+
 const styles = {
     container: {
         flex: 1,
-        alignItems: 'center',
+    },
+    topSpace: {
+        flex: 0.2,
+    },
+    titleContainer: {
+        flex: 0.5,
         justifyContent: 'center',
-        gap: 20,
+        alignItems: 'center',
     },
     title: {
         fontSize: 55,
         fontFamily: "Custom",
         lineHeight: 150,
     },
-}
-
+    contentContainer: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        gap: 16
+    }
+};

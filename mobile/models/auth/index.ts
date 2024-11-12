@@ -9,3 +9,12 @@ export interface LoginResponse {
     email: string;
     token: string;
 }
+
+export interface SignUpRequest {
+    username: string;
+    email: string;
+    password: string;
+}
+
+export interface SignUpResponse {
+}

@@ -12,9 +12,7 @@ export default function RootLayout() {
         <PaperProvider>
             <Provider store={store}>
                 <SafeAreaProvider>
-                    {/*<View style={{marginHorizontal: 16}}>*/}
                     <Navigator.Slot/>
-                    {/*</View>*/}
                 </SafeAreaProvider>
             </Provider>
         </PaperProvider>
