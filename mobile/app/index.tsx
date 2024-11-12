@@ -11,7 +11,10 @@ export default function Index() {
     const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const {} = useFonts({
+    // const {} = useFonts({
+    //     Custom: require("../assets/fonts/Custom-font.ttf")
+    // });
+    const [fontsLoaded] = useFonts({
         Custom: require("../assets/fonts/Custom-font.ttf")
     });
 
@@ -35,13 +38,13 @@ export default function Index() {
             } catch (error) {
                 console.error("Error al recuperar el token:", error);
             } finally {
-                setLoading(false);
+                setLoading(!fontsLoaded);
             }
         };
         fetchToken();
-    }, []);
+    }, [fontsLoaded]);
 
-    if (loading) {
+    if (loading || !fontsLoaded) {
         return (
             <SafeAreaView>
                 <Text>Cargando...</Text>
