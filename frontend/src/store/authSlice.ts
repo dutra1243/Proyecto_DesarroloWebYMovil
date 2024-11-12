@@ -51,7 +51,11 @@ const authSlice = createSlice({
         },
         loginSuccess: (state, action) => {
             state.isLoading = false;
-            state.user = action.payload.user;
+            state.user = {
+                _id: action.payload._id,
+                username: action.payload.username,
+                email: action.payload.email,
+            };
             state.token = action.payload.token;
             sessionStorage.setItem("token", action.payload.token);
         },
