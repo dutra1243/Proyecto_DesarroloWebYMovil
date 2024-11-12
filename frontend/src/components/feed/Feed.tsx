@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Sidebar } from '../sidebar/Sidebar'
 import { Post } from '../post/Post'
-import { PostDTO } from '../../models/post'
+import { PostDTO } from '../../models/post/PostDTO'
 
 export const Feed = () => {
 
     const [posts, setPosts] = useState<PostDTO[]>()
 
-    const token = useSelector((state : any) => state.auth.token)
+    const token = useSelector((state: any) => state.auth.token)
 
     useEffect(() => {
 

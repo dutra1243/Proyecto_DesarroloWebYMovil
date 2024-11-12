@@ -7,8 +7,9 @@ export interface UserDto {
 }
 
 export interface AuthUser {
+    _id: string;
     username: string;
     email: string;
-    profilePicture: string;
-    createdAt: Date;
+    profilePicture?: string;
+    createdAt?: Date;
 }
