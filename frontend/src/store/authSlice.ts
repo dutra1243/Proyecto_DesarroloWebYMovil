@@ -36,7 +36,7 @@ export interface IAuth {
 }
 
 const initialState: IAuth = {
-    user: null, // Aquí se almacenarán los datos del usuario logueado
+    user: JSON.parse(sessionStorage.getItem("user") || "null"), // Recuperar el user desde sessionStorage
     token: sessionStorage.getItem("token") || null, // Recuperar token del sessionStorage si existe
     isLoading: false, // Para manejar el estado de carga
     error: null, // Para almacenar errores de autenticación
@@ -58,6 +58,7 @@ const authSlice = createSlice({
             };
             state.token = action.payload.token;
             sessionStorage.setItem("token", action.payload.token);
+            sessionStorage.setItem("user", JSON.stringify(state.user));
         },
         loginFailure: (state, action) => {
             state.isLoading = false;
@@ -68,6 +69,7 @@ const authSlice = createSlice({
             state.token = null;
             state.error = null;
             sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user");
         },
     },
     extraReducers: (builder) => {
