@@ -1,14 +1,14 @@
-import React, {useDebugValue, useEffect} from 'react'
-import {Sidebar} from '../sidebar/Sidebar'
-import {UserInfo} from './userInfo/UserInfo'
-import {UserPictures} from './userPictures/UserPictures'
-import {useParams} from 'react-router-dom'
-import {useSelector} from 'react-redux'
-import {baseUrl} from '../../common/constants'
-import {useState} from 'react'
-import {UserDto} from '../../models/user'
-import {PostDTO} from '../../models/post'
-import {Post} from '../post/Post'
+import React, { useDebugValue, useEffect } from 'react'
+import { Sidebar } from '../sidebar/Sidebar'
+import { UserInfo } from './userInfo/UserInfo'
+import { UserPictures } from './userPictures/UserPictures'
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { baseUrl } from '../../common/constants'
+import { useState } from 'react'
+import { UserDto } from '../../models/user'
+import { PostDTO } from '../../models/post/PostDTO'
+import { Post } from '../post/Post'
 
 export const Profile = () => {
     const token = useSelector((state: any) => state.auth.token)
@@ -34,19 +34,19 @@ export const Profile = () => {
             }
         }).then(response =>
             response.json()).then(data => {
-            setUser(data.user)
-        }).then(() => {
-            setIsEditable(username === user.username)
-        })
-        console.log({user})
+                setUser(data.user)
+            }).then(() => {
+                setIsEditable(username === user.username)
+            })
+        console.log({ user })
     }, [])
 
 
     return (
         <>
-            <Sidebar/>
+            <Sidebar />
             {selectedPost && <Post {...selectedPost} />}
-            <UserInfo username={user.username} profilePicture={user.profilePicture} isEditable={isEditable}/>
+            <UserInfo username={user.username} profilePicture={user.profilePicture} isEditable={isEditable} />
             {selectedPost && (
                 <div
                     onClick={(e) => {
@@ -58,7 +58,7 @@ export const Profile = () => {
                     <Post {...selectedPost} />
                 </div>
             )}
-            <UserPictures id={userId} openPostModal={setSelectedPost}/>
+            <UserPictures id={userId} openPostModal={setSelectedPost} />
         </>
     )
 }

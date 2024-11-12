@@ -16,7 +16,7 @@ export const PostHeader = (props: {
     return (
         <div className='post'>
             <div className='postHeader'>
-                <img src={props.user.profilePicture || "/vite.svg"} alt="profilePicture" className='profilePicture'/>
+                <img src={props.user.profilePicture || "/vite.svg"} alt="profilePicture" className='profilePicture' />
                 <h2 className='username'>{props.user.username}</h2>
                 <p className='dateTime'>{date} - {time}</p>
             </div>
