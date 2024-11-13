@@ -37,6 +37,7 @@ export interface IAuth {
 
 const initialState: IAuth = {
     user: JSON.parse(sessionStorage.getItem("user") || "null"), // Recuperar el user desde sessionStorage
+    id: sessionStorage.getItem("id") || null, // Recuperar id del sessionStorage si existe
     token: sessionStorage.getItem("token") || null, // Recuperar token del sessionStorage si existe
     isLoading: false, // Para manejar el estado de carga
     error: null, // Para almacenar errores de autenticación
