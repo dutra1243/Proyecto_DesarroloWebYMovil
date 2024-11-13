@@ -16,6 +16,12 @@
     background-color: #ffffff;
 }
 
+.headerButton {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
 .profilePicture {
     width: 50px;
     height: 50px;
