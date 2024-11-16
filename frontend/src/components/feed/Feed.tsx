@@ -23,7 +23,7 @@ export const Feed = () => {
                 console.log("fetched data", data)
                 setPosts(data)
             })
-    }, [token])
+    }, [])
 
     // if (typeof (posts) === 'object') {
 

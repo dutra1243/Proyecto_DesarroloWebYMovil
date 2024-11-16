@@ -29,20 +29,22 @@ export default function Home() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTQzYzhjYjJlMGI2YjNjZWMxNDBiOCIsImlhdCI6MTczMTYyMTIzMywiZXhwIjoxNzM0MjEzMjMzfQ.lCdoma_msL8VUPh-8s1fFBpHl2G5ulN9B72cSzO219M "}`,
             }
         }).then(response => response.json())
             .then(data => {
                 console.log("fetched data correctly");
                 setPosts(data);
+            }).catch(error => {
+                console.error("Error fetching data:", error);
             });
-    }, [token]);
+    }, []);
 
     return (
         <SafeAreaView style={styles.container} >
             <Text>Home</Text>
             {/* {token && <Text>Token: {token}</Text>} */}
-            <Feed {...posts} ></Feed>
+            {token && <Feed {...posts}></Feed>}
         </SafeAreaView>
     );
 }

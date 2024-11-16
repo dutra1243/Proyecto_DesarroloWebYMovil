@@ -11,8 +11,8 @@ const PostFooter = ({ caption, likes, comments }:
     return (
         <View>
             <Text >{caption}</Text>
-            <Text >Likes: {likes.length}</Text>
-            <Text >Comments: {comments.length}</Text>
+            {/* <Text >Likes: {likes.length}</Text>
+            <Text >Comments: {comments.length}</Text> */}
         </View>
     )
 }
