@@ -39,7 +39,7 @@ export const Profile = () => {
                 setIsEditable(username === user.username)
             })
         console.log({ user })
-    }, [])
+    }, [userId])
 
 
     return (
