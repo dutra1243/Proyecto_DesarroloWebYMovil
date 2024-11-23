@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { UserDto } from '../../models/user'
 import { PostDTO } from '../../models/post/PostDTO'
 import { Post } from '../post/Post'
+import "./Profile.css"
 
 export const Profile = () => {
     const token = useSelector((state: any) => state.auth.token)

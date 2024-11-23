@@ -7,22 +7,21 @@ type UserInfoProps = {
     isEditable: boolean;
 }
 
-export const UserInfo = ({username, profilePicture, isEditable}: UserInfoProps) => {
-
-    console.log(username, profilePicture, isEditable);
-
+export const UserInfo = ({ username, profilePicture, isEditable }: UserInfoProps) => {
     const [showModal, setShowModal] = React.useState(false);
+
     return (
         <div className="user-info">
-            <img src={profilePicture} alt="Profile Picture"/>
-            <h2>{username}</h2>
+            <div className="profile-container">
+                <img className="profile-picture" src={profilePicture} alt="Profile Picture" />
+                <h2 className="profile-username">{username}</h2>
+            </div>
             {isEditable && (
                 <>
                     <button onClick={() => setShowModal(true)}>Edit Profile</button>
-                    {showModal && <EditProfileModal username={username} profilePicture={profilePicture}
-                                                    toggleModal={setShowModal}/>}
+                    {showModal && <EditProfileModal username={username} profilePicture={profilePicture} toggleModal={setShowModal} />}
                 </>
             )}
         </div>
-    )
-}
+    );
+};
