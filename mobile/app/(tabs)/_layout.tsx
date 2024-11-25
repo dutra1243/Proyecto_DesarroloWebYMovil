@@ -1,6 +1,6 @@
-import {Slot, Tabs} from "expo-router";
-import {View, Text, SafeAreaView} from "react-native";
-import {Icon} from "react-native-paper";
+import { Slot, Tabs } from "expo-router";
+import { View, Text, SafeAreaView } from "react-native";
+import { Icon } from "react-native-paper";
 import Home from "@/app/(tabs)/home";
 
 export default function TabsLayout() {
@@ -13,12 +13,12 @@ export default function TabsLayout() {
         >
             <Tabs
             >
-                <Tabs.Screen name="home/index" options={{
+                <Tabs.Screen name="home" options={{
                     title: "Inicio",
                     headerShown: false,
                 }}
                 />
-                <Tabs.Screen name="profile/index" options={{
+                <Tabs.Screen name="profile" options={{
                     title: "Perfil",
                     headerShown: false,
                 }}

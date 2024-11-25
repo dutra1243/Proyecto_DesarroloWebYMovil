@@ -1,11 +1,11 @@
-import {View, Text, SafeAreaView} from 'react-native';
-import {Button} from "react-native-paper";
-import {router} from "expo-router";
-import {useEffect, useState} from "react";
+import { View, Text, SafeAreaView } from 'react-native';
+import { Button } from "react-native-paper";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import GradientText from "@/components/GradientText";
-import {useFonts} from "expo-font";
-import {Colors} from "@/constants/Colors";
+import { useFonts } from "expo-font";
+import { Colors } from "@/constants/Colors";
 
 export default function Index() {
     const [token, setToken] = useState(null);
@@ -54,7 +54,7 @@ export default function Index() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.topSpace}/>
+            <View style={styles.topSpace} />
             <View style={styles.titleContainer}>
                 <GradientText colors={['#8e2de2', '#f64f59', '#4facfe', '#f093fb']} style={styles.title}>
                     Fakegram
@@ -62,8 +62,8 @@ export default function Index() {
             </View>
             <View style={styles.contentContainer}>
                 <Button mode="contained-tonal"
-                        buttonColor={"rgba(79,172,254,0.09)"}
-                        onPress={handleRegister}
+                    buttonColor={"rgba(79,172,254,0.09)"}
+                    onPress={handleRegister}
                 >
                     Crear una cuenta
                 </Button>

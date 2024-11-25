@@ -1,6 +1,6 @@
-import {SafeAreaView, Text, View} from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
     const [token, setToken] = useState(null);
@@ -21,6 +21,7 @@ export default function Home() {
 
     return (
         <SafeAreaView>
+
             <Text>HomeEE</Text>
             {token && <Text>Token: {token}</Text>}
         </SafeAreaView>
