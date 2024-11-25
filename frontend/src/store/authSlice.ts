@@ -33,6 +33,7 @@ export interface IAuth {
     token: string | null;
     isLoading: boolean;
     error: string | null;
+    id: string | null;
 }
 
 const initialState: IAuth = {

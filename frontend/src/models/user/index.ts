@@ -4,6 +4,8 @@ export interface UserDto {
     password: string;
     profilePicture: string;
     createdAt: Date;
+    friends: string[];
+    _id: string;
 }
 
 export interface AuthUser {

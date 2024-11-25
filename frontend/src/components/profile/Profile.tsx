@@ -14,16 +14,34 @@ export const Profile = () => {
     const token = useSelector((state: any) => state.auth.token)
     const username = useSelector((state: any) => state.auth.username)
     const userId = useParams().id as String;
-
+    const [friendsInfo, setFriendsInfo] = useState<UserDto[]>([]);
     const [selectedPost, setSelectedPost] = useState<PostDTO>();
     const [user, setUser] = useState<UserDto>({
         username: '',
         email: '',
         password: '',
         profilePicture: '',
-        createdAt: new Date
+        createdAt: new Date,
+        friends: [],
+        _id: ''
     });
     const [isEditable, setIsEditable] = useState(false);
+
+    const fetchFriendsInfo = async () => {
+        const result: UserDto[] = [];
+        for (const friendId of user.friends) {
+            const response = await fetch(`${baseUrl}/user/${friendId}`, {
+                method: 'GET',
+                headers: {
+                    'content-type': 'application/json',
+                    'authorization': `Bearer ${token}`,
+                }
+            });
+            const data = await response.json();
+            result.push(data.user);
+        }
+        setFriendsInfo(result);
+    }
 
     useEffect(() => {
         fetch(`${baseUrl}/user/profile/${userId}`, {
@@ -37,8 +55,9 @@ export const Profile = () => {
                 setUser(data.user)
             }).then(() => {
                 setIsEditable(username === user.username)
+            }).then(() => {
+                fetchFriendsInfo();
             })
-        console.log({ user })
     }, [userId])
 
 
@@ -46,7 +65,7 @@ export const Profile = () => {
         <>
             <Sidebar />
             {selectedPost && <Post {...selectedPost} />}
-            <UserInfo username={user.username} profilePicture={user.profilePicture} isEditable={isEditable} />
+            <UserInfo username={user.username} userId={userId} profilePicture={user.profilePicture} friends={friendsInfo} isEditable={isEditable} />
             {selectedPost && (
                 <div
                     onClick={(e) => {
