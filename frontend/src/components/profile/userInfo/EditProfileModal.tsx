@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { baseUrl } from '../../../common/constants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 type EditProfileModalProps = {
     username: string;
@@ -11,6 +11,7 @@ type EditProfileModalProps = {
 
 export const EditProfileModal = ({ username, profilePicture, description, toggleModal }: EditProfileModalProps) => {
 
+    const [newUsername, setNewUsername] = React.useState(username);
     const [newProfilePicture, setNewProfilePicture] = React.useState(profilePicture);
     const [newDescription, setNewDescription] = React.useState(description)
     const token = useSelector((state: any) => state.auth.token)
@@ -25,14 +26,16 @@ export const EditProfileModal = ({ username, profilePicture, description, toggle
             },
             body: JSON.stringify({
                 _id: id,
-                username: username,
+                username: newUsername,
                 description: newDescription,
                 profilePicture: newProfilePicture
             })
         });
 
         if (response.ok) {
-            console.log('Success')
+            // const dispatch = useDispatch();
+            // dispatch(updateUsername({ username: newUsername }));
+            // toggleModal(false);
         } else {
             alert('Failed to update profile. Try again later.');
         }
@@ -42,6 +45,8 @@ export const EditProfileModal = ({ username, profilePicture, description, toggle
         <div>
             <h2>Edit Profile</h2>
             <form>
+                <label htmlFor="username">Username</label>
+                <input type="text" id="username" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
                 <label htmlFor="description">Description</label>
                 <input type='text' id='description' value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
                 <label htmlFor="profilePicture">Profile Picture</label>
