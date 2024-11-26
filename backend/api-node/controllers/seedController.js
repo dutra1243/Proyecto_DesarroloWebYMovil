@@ -1,6 +1,6 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
-const {faker} = require('@faker-js/faker');
+const { faker } = require('@faker-js/faker');
 
 const runSeed = async (req, res) => {
     const count = req.params.qty
@@ -12,6 +12,7 @@ const runSeed = async (req, res) => {
             const profilePictureGeneratorURL = 'https://robohash.org/' + faker.animal.dog() + '.png'
             const user = await User.create({
                 username: faker.internet.userName(),
+                description: faker.internet.description(),
                 email: faker.internet.email(),
                 password: faker.internet.password(),
                 profilePicture: profilePictureGeneratorURL,
@@ -31,15 +32,18 @@ const runSeed = async (req, res) => {
         await User.create({
             username: 'prueba',
             email: 'prueba@prueba.com',
+            description: faker.internet.description(),
             password: 'prueba',
+            profilePicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS65DGqFvGzIj8YQEifkpvsvBFHl8qsLm-hyA&s'
+
         })
 
-        res.status(201).json({message: 'Seed data created successfully'});
+        res.status(201).json({ message: 'Seed data created successfully' });
     } catch
-        (error) {
-        res.status(500).json({message: error.message});
+    (error) {
+        res.status(500).json({ message: error.message });
     }
 }
 
 
-module.exports = {runSeed};
+module.exports = { runSeed };
