@@ -6,41 +6,26 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { baseUrl } from '../../common/constants'
 import { useState } from 'react'
-import { UserDto } from '../../models/user'
 import { PostDTO } from '../../models/post/PostDTO'
 import { Post } from '../post/Post'
 
 export const Profile = () => {
     const token = useSelector((state: any) => state.auth.token)
-    const username = useSelector((state: any) => state.auth.username)
+    const username = useSelector((state: any) => state.auth.user.username)
     const userId = useParams().id as String;
-    const [friendsInfo, setFriendsInfo] = useState<UserDto[]>([]);
     const [selectedPost, setSelectedPost] = useState<PostDTO>();
-    const [user, setUser] = useState<UserDto>({
+    const [user, setUser] = useState({
         username: '',
         email: '',
-        password: '',
         profilePicture: '',
-        createdAt: new Date,
         friends: [],
         _id: ''
     });
     const [isEditable, setIsEditable] = useState(false);
+    const [updateProfile, setUpdateProfile] = useState(false);
 
-    const fetchFriendsInfo = async () => {
-        const result: UserDto[] = [];
-        for (const friendId of user.friends) {
-            const response = await fetch(`${baseUrl}/user/${friendId}`, {
-                method: 'GET',
-                headers: {
-                    'content-type': 'application/json',
-                    'authorization': `Bearer ${token}`,
-                }
-            });
-            const data = await response.json();
-            result.push(data.user);
-        }
-        setFriendsInfo(result);
+    const handleUpdateProfile = () => {
+        setUpdateProfile(!updateProfile)
     }
 
     useEffect(() => {
@@ -52,20 +37,23 @@ export const Profile = () => {
             }
         }).then(response =>
             response.json()).then(data => {
-                setUser(data.user)
-            }).then(() => {
-                setIsEditable(username === user.username)
-            }).then(() => {
-                fetchFriendsInfo();
+                setUser({
+                    username: data.user.username,
+                    email: data.user.email,
+                    friends: data.user.friends,
+                    _id: data.user._id,
+                    profilePicture: data.user.profilePicture
+                })
+                setIsEditable(username === data.user.username)
             })
-    }, [userId])
+    }, [userId, updateProfile])
 
 
     return (
         <>
             <Sidebar />
             {selectedPost && <Post {...selectedPost} />}
-            <UserInfo username={user.username} userId={userId} profilePicture={user.profilePicture} friends={friendsInfo} isEditable={isEditable} />
+            <UserInfo username={user.username} handleUpdate={() => handleUpdateProfile()} userId={userId} profilePicture={user.profilePicture} friends={user.friends} isEditable={isEditable} />
             {selectedPost && (
                 <div
                     onClick={(e) => {
