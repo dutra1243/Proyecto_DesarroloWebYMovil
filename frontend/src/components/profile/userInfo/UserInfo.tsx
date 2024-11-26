@@ -72,7 +72,7 @@ export const UserInfo = ({ username, profilePicture, isEditable, friends, userId
             {isEditable && (
                 <>
                     <Button variant='outlined' onClick={() => setShowEditModal(true)}>Edit Profile</Button>
-                    {showEditModal && <EditProfileModal username={username} profilePicture={profilePicture}
+                    {showEditModal && <EditProfileModal username={username} description={description} profilePicture={profilePicture}
                         toggleModal={setShowEditModal} />}
                 </>
             )}
