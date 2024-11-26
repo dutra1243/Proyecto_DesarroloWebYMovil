@@ -13,6 +13,7 @@ export const EditProfileModal = ({ username, profilePicture, toggleModal }: Edit
     const [newUsername, setNewUsername] = React.useState(username);
     const [newProfilePicture, setNewProfilePicture] = React.useState(profilePicture);
     const token = useSelector((state: any) => state.auth.token)
+    const id = useSelector((state: any) => state.auth.user._id)
 
     const handleSubmit = async () => {
         const response = await fetch(`${baseUrl}/user/profile/edit`, {
@@ -22,6 +23,7 @@ export const EditProfileModal = ({ username, profilePicture, toggleModal }: Edit
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
+                _id: id,
                 username: newUsername,
                 profilePicture: newProfilePicture
             })
