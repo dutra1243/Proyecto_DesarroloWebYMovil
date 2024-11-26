@@ -88,10 +88,6 @@ const authSlice = createSlice({
                 username: action.payload.username,
                 email: action.payload.email,
             };
-<<<<<<< HEAD
-=======
-            ;
->>>>>>> e3160e4a2a1e06d003afe2c86467b752dba2ba8b
             state.token = action.payload.token;
             sessionStorage.setItem("token", action.payload.token);
             sessionStorage.setItem("user", JSON.stringify(state.user));
