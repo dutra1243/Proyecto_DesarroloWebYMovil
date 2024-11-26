@@ -1,6 +1,7 @@
 export interface UserDto {
     username: string;
     email: string;
+    description: string;
     password: string;
     profilePicture: string;
     createdAt: Date;

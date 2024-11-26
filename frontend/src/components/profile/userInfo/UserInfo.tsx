@@ -3,6 +3,7 @@ import { EditProfileModal } from './EditProfileModal';
 import { FriendsModal } from './FriendsModal';
 import { baseUrl } from '../../../common/constants';
 import { useSelector } from 'react-redux';
+import { Button } from '@mui/material';
 
 type FriendsInfo = {
     profilePicture: string,
@@ -16,10 +17,11 @@ type UserInfoProps = {
     profilePicture: string,
     isEditable: boolean;
     friends: FriendsInfo[];
+    description: string;
     handleUpdate: () => void;
 }
 
-export const UserInfo = ({ username, profilePicture, isEditable, friends, userId, handleUpdate }: UserInfoProps) => {
+export const UserInfo = ({ username, profilePicture, isEditable, friends, userId, handleUpdate, description }: UserInfoProps) => {
     const token = useSelector((state: any) => state.auth.token)
     const loggedId = useSelector((state: any) => state.auth.user._id)
     const [showEditModal, setShowEditModal] = React.useState(false);
@@ -62,13 +64,14 @@ export const UserInfo = ({ username, profilePicture, isEditable, friends, userId
             }
             <img src={profilePicture} alt="Profile Picture" />
             <h2>{username}</h2>
+            <p>{description}</p>
             <div className='friends-card' onClick={() => { setShowFriendsModal(true) }}>
                 <p>{friends.length} Following</p>
             </div>
             {(!isEditable && !isFriend) && (<div className='add-friend-button'><button onClick={addFriend}>Add Friend</button></div>)}
             {isEditable && (
                 <>
-                    <button onClick={() => setShowEditModal(true)}>Edit Profile</button>
+                    <Button variant='outlined' onClick={() => setShowEditModal(true)}>Edit Profile</Button>
                     {showEditModal && <EditProfileModal username={username} profilePicture={profilePicture}
                         toggleModal={setShowEditModal} />}
                 </>

@@ -6,7 +6,7 @@ const getUserProfile = async (req, res) => {
         // Buscar al usuario por ID y excluir la contraseña
         const user = await User.findById(req.params.id)
             .select("-password")
-            .populate("friends", "username profilePicture");
+            .populate("friends", "username profilePicture description");
 
         if (!user) {
             return res.status(404).json({ message: "Usuario no encontrado" });

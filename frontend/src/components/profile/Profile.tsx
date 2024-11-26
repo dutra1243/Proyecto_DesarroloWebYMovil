@@ -19,7 +19,8 @@ export const Profile = () => {
         email: '',
         profilePicture: '',
         friends: [],
-        _id: ''
+        _id: '',
+        description: ''
     });
     const [isEditable, setIsEditable] = useState(false);
     const [updateProfile, setUpdateProfile] = useState(false);
@@ -42,8 +43,10 @@ export const Profile = () => {
                     email: data.user.email,
                     friends: data.user.friends,
                     _id: data.user._id,
-                    profilePicture: data.user.profilePicture
+                    profilePicture: data.user.profilePicture,
+                    description: data.user.description
                 })
+                console.log(username, data.user.username)
                 setIsEditable(username === data.user.username)
             })
     }, [userId, updateProfile])
@@ -53,7 +56,7 @@ export const Profile = () => {
         <>
             <Sidebar />
             {selectedPost && <Post {...selectedPost} />}
-            <UserInfo username={user.username} handleUpdate={() => handleUpdateProfile()} userId={userId} profilePicture={user.profilePicture} friends={user.friends} isEditable={isEditable} />
+            <UserInfo username={user.username} handleUpdate={() => handleUpdateProfile()} userId={userId} profilePicture={user.profilePicture} description={user.description} friends={user.friends} isEditable={isEditable} />
             {selectedPost && (
                 <div
                     onClick={(e) => {

@@ -73,6 +73,13 @@ const authSlice = createSlice({
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("user");
         },
+        updateUsername: (state, action) => {
+            if (state.user) {
+                console.log(action.payload.username)
+                state.user.username = action.payload.username
+                console.log(state.user.username)
+            }
+        }
     },
     extraReducers: (builder) => {
         // builder.addCase(loginThunk.fulfilled, (state, action) => {
@@ -84,5 +91,5 @@ const authSlice = createSlice({
     }
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout, updateUsername } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { baseUrl } from '../../../common/constants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUsername } from '../../../store/authSlice';
 
 type EditProfileModalProps = {
     username: string;
@@ -30,6 +31,8 @@ export const EditProfileModal = ({ username, profilePicture, toggleModal }: Edit
         });
 
         if (response.ok) {
+            const dispatch = useDispatch();
+            dispatch(updateUsername({ username: newUsername }));
             toggleModal(false);
         } else {
             alert('Failed to update profile. Try again later.');
