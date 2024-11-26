@@ -1,16 +1,17 @@
-import React, {useEffect} from 'react'
-import {baseUrl} from '../../../common/constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {editProfileThunk} from "../../../store/authSlice.ts";
+import React, { useEffect } from 'react'
+import { baseUrl } from '../../../common/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { editProfileThunk } from "../../../store/authSlice.ts";
 
 type EditProfileModalProps = {
     username: string;
     profilePicture: string;
     toggleModal: (value: boolean) => void;
     description: string;
+    handleUpdate: () => void;
 }
 
-export const EditProfileModal = ({username, profilePicture, description, toggleModal}: EditProfileModalProps) => {
+export const EditProfileModal = ({ username, profilePicture, description, toggleModal, handleUpdate }: EditProfileModalProps) => {
     const dispatch = useDispatch();
 
     const [newUsername, setNewUsername] = React.useState(username);
@@ -28,6 +29,7 @@ export const EditProfileModal = ({username, profilePicture, description, toggleM
             description: newDescription,
             profilePicture: newProfilePicture
         }))
+        handleUpdate()
         toggleModal(false)
     }
 
@@ -43,13 +45,13 @@ export const EditProfileModal = ({username, profilePicture, description, toggleM
             }>
 
                 <label htmlFor="username">Username</label>
-                <input type="text" id="username" value={newUsername} onChange={(e) => setNewUsername(e.target.value)}/>
+                <input type="text" id="username" value={newUsername} onChange={(e) => setNewUsername(e.target.value)} />
                 <label htmlFor="description">Description</label>
                 <input type='text' id='description' value={newDescription}
-                       onChange={(e) => setNewDescription(e.target.value)}/>
+                    onChange={(e) => setNewDescription(e.target.value)} />
                 <label htmlFor="profilePicture">Profile Picture</label>
                 <input type="text" id="profilePicture" value={newProfilePicture}
-                       onChange={(e) => setNewProfilePicture(e.target.value)}/>
+                    onChange={(e) => setNewProfilePicture(e.target.value)} />
                 <button type="submit" onClick={handleSubmit}>Save</button>
                 <button onClick={() => toggleModal(false)}>Cancel</button>
             </form>
