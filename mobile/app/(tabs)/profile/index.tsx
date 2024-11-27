@@ -5,12 +5,13 @@ import { router, useLocalSearchParams } from "expo-router";
 import UserInfo from '@/components/ProfileComponents/UserInfo';
 import UserPictures from '@/components/ProfileComponents/UserPictures';
 import { useSelector } from "react-redux";
-import { useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { baseUrl } from '@/common/constants';
 import { PostDTO } from '@/models/post/PostDTO';
 import { UserDto } from '@/models/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from '@/store/store';
+import { ChangeContext } from '@/components/Context/ChangeProvider';
 
 export default function Profile({id} : {id? : string}) {
 
@@ -18,6 +19,8 @@ export default function Profile({id} : {id? : string}) {
  
     const [user, setUser] = useState<UserDto | null>(null)
     const [token, setToken] = useState<string | null>(null)
+
+    const [isChanged, setIsChanged] = useContext(ChangeContext)
 
     useEffect(() => {
         const fetchToken = async () => {
@@ -58,7 +61,7 @@ export default function Profile({id} : {id? : string}) {
                     console.error('Error:', error);
                 });
         }
-    }, [token, user])
+    }, [token, user, isChanged])
 
     console.log("PROFILE>>>>>>", profile )
     console.log("PROFILE.POSTS>>>>>>>", profile?.posts)

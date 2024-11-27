@@ -21,7 +21,7 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
 
     const handleEdit = () => {
         console.log("EDIT PROFILE")
-        router.push({pathname: "/EditModal"})
+        router.push({pathname: "/[EditModal]"})
     }
 
     const [user, setUser] = useState<UserDto | null>(null)
@@ -43,8 +43,11 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
 
                 {props.user.profilePicture !== "" ? <Image style={styles.image} source={{ uri: props.user.profilePicture }} ></Image>
                     : <Image style={styles.image} source={{ uri: genericProfilePicture }} ></Image>}
-                <View style={{flexDirection: "row", gap: 25}}>
-                    <Text>{props.user.username}</Text>
+                <View style={{flexDirection: "row", gap: 25, flexWrap: "wrap"}}>
+                    <View style={{flexDirection: "column", gap: 20}} >
+                        <Text>{props.user.username}</Text>
+                        <Text style={{maxWidth: 100}} >{props.user.description}</Text>
+                    </View>
                     {user && props.user.email === user.email ? 
                     <View style={{flexDirection: "row", gap: 20}} >
                         <Pressable onPress={handleEdit}  >

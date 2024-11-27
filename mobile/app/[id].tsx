@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Button } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { UserDto } from '@/models/user'
@@ -9,12 +9,15 @@ import { TextInput } from 'react-native'
 import ImageSelection from '@/components/PicureButtons/ImageSelection'
 import CameraButton from '@/components/PicureButtons/CameraButton'
 import { router } from 'expo-router'
+import { ChangeContext } from '@/components/Context/ChangeProvider'
 
 
 const EditModal = () => {
 
     const [user, setUser] = useState<UserDto | null>(null)
     const [token, setToken] = useState<string | null>(null)
+
+    const [isChanged, setIsChanged] = useContext(ChangeContext)
 
     
     
@@ -56,30 +59,32 @@ const EditModal = () => {
                     console.error('Error:', error);
                 });
         }
-    }, [token, user])
+    }, [token, user ])
 
 
     const handleSubmit = () => {
-        console.log("profile to edit", profileToEdit)
         if (token && user) {
-        fetch(baseUrl + '/user/profile/edit/' + user._id, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({
-                id: user._id,
-                username: profileToEdit.username,
-                description: profileToEdit.description,
-                profilePicture: profilePicture
-            })
-        })
-            .then((data) => {
-                console.log("fetch user profile", data)
-            }).catch((error) => {
-                console.error('Error:', error);
-            });
+            console.log("user id", user._id)
+            console.log("profile to edit", profileToEdit)
+            fetch(baseUrl + '/user/profile/edit', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    id: user._id,
+                    username: profileToEdit.username,
+                    description: profileToEdit.description,
+                    profilePicture: profilePicture
+                })
+            }).then((response) => response.json())
+                .then((data) => {
+                    console.log("fetch edit user profile", data)
+                    setIsChanged(!isChanged)
+                }).catch((error) => {
+                    console.error('Error:', error);
+                });
         }
         router.back()
     }
