@@ -24,6 +24,7 @@ export default function RootLayout() {
                     </SafeAreaProvider>
                 </Provider>
             </ChangeProvider>
+
         </PaperProvider>
     );
 }

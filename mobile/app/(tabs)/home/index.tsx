@@ -12,15 +12,13 @@ export default function Home() {
     const [posts, setPosts] = useState<PostDTO[]>([]);
 
     const [token, setToken] = useState(null);
-    const [user, setUser] = useState()
+
 
     useEffect(() => {
         const fetchToken = async () => {
             try {
                 const storedToken = await AsyncStorage.getItem("token");
                 setToken(storedToken);
-                const storedUser = await AsyncStorage.getItem("user");
-                setUser(JSON.parse(storedUser));
             } catch (error) {
                 console.error("Error al recuperar el token:", error);
             }

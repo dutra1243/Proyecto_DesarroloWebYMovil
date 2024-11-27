@@ -20,6 +20,11 @@ export default function TabsLayout() {
                     tabBarIcon: ({ focused }) => <Foundation name="home" color={focused ? "blue" : "grey"} size={24} />,
                 }}
                 />
+                <Tabs.Screen name="addPost/index" options={{
+                    title: "Añadir",
+                    headerShown: false,
+                }}
+                />
                 <Tabs.Screen name="profile/index" options={{
                     title: "Perfil",
                     headerTitle: "My Profile", headerTitleAlign: "center",

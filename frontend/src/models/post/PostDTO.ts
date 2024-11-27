@@ -7,7 +7,14 @@ export interface PostDTO {
     };
     imageUrl: string;
     caption: string;
-    comments: any[];
+    comments: {
+        _id: string,
+        content: string,
+        user: {
+            _id: string,
+            username: string,
+        },
+    }[];
     likes: any[];
     createdAt: string;
     __v: number;

@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import { StateUser } from "../models/user";
-import { baseUrl } from "@/common/constants";
-import { LoginRequest, LoginResponse, SignUpRequest, SignUpResponse } from "@/models/auth";
+import {StateUser} from "../models/user";
+import {baseUrl} from "@/common/constants";
+import {LoginRequest, LoginResponse, SignUpRequest, SignUpResponse} from "@/models/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
@@ -10,7 +11,11 @@ export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
     async ({ email, password }, thunkAPI) => {
         try {
             thunkAPI.dispatch(loginStart());
-            const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', { email, password })).data;
+
+            const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', {
+                email,
+                password
+            }));
             thunkAPI.dispatch(loginSuccess(response));
             return response;
         } catch (error) {
@@ -72,16 +77,14 @@ const authSlice = createSlice({
             state.isLoading = true;
         },
         loginSuccess: (state, action) => {
-            console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
             state.isLoading = false;
             state.user = {
-                _id: action.payload._id,
-                username: action.payload.username,
-                email: action.payload.email,
+                _id: action.payload.data._id,
+                username: action.payload.data.username,
+                email: action.payload.data.email,
             };
-            state.token = action.payload.token;
-            console.log('JSON.stringify(state.user): ', JSON.stringify(state.user))
-            AsyncStorage.setItem("token", action.payload.token)
+            state.token = action.payload.data.token;
+            AsyncStorage.setItem("token", action.payload.data.token)
             AsyncStorage.setItem("user", JSON.stringify(state.user))
         },
         loginFailure: (state, action) => {
