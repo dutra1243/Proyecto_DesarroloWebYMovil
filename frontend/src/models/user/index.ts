@@ -1,9 +1,12 @@
 export interface UserDto {
     username: string;
     email: string;
+    description: string;
     password: string;
     profilePicture: string;
     createdAt: Date;
+    friends: string[];
+    _id: string;
 }
 
 export interface AuthUser {

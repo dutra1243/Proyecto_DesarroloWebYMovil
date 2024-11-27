@@ -6,25 +6,29 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { baseUrl } from '../../common/constants'
 import { useState } from 'react'
-import { UserDto } from '../../models/user'
 import { PostDTO } from '../../models/post/PostDTO'
 import { Post } from '../post/Post'
 import "./Profile.css"
 
 export const Profile = () => {
     const token = useSelector((state: any) => state.auth.token)
-    const username = useSelector((state: any) => state.auth.username)
+    const username = useSelector((state: any) => state.auth.user.username)
     const userId = useParams().id as String;
-
     const [selectedPost, setSelectedPost] = useState<PostDTO>();
-    const [user, setUser] = useState<UserDto>({
+    const [user, setUser] = useState({
         username: '',
         email: '',
-        password: '',
         profilePicture: '',
-        createdAt: new Date
+        friends: [],
+        _id: '',
+        description: ''
     });
     const [isEditable, setIsEditable] = useState(false);
+    const [updateProfile, setUpdateProfile] = useState(false);
+
+    const handleUpdateProfile = () => {
+        setUpdateProfile(!updateProfile)
+    }
 
     useEffect(() => {
         fetch(`${baseUrl}/user/profile/${userId}`, {
@@ -35,19 +39,25 @@ export const Profile = () => {
             }
         }).then(response =>
             response.json()).then(data => {
-                setUser(data.user)
-            }).then(() => {
-                setIsEditable(username === user.username)
+                setUser({
+                    username: data.user.username,
+                    email: data.user.email,
+                    friends: data.user.friends,
+                    _id: data.user._id,
+                    profilePicture: data.user.profilePicture,
+                    description: data.user.description
+                })
+                console.log(username, data.user.username)
+                setIsEditable(username === data.user.username)
             })
-        console.log({ user })
-    }, [])
+    }, [userId, updateProfile])
 
 
     return (
         <>
             <Sidebar />
             {selectedPost && <Post {...selectedPost} />}
-            <UserInfo username={user.username} profilePicture={user.profilePicture} isEditable={isEditable} />
+            <UserInfo username={user.username} handleUpdate={() => handleUpdateProfile()} userId={userId} profilePicture={user.profilePicture} description={user.description} friends={user.friends} isEditable={isEditable} />
             {selectedPost && (
                 <div
                     onClick={(e) => {
