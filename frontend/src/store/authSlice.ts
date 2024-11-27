@@ -1,15 +1,15 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import {AuthUser} from "../models/user";
-import {baseUrl} from "../common/constants.ts";
-import {LoginRequest, LoginResponse} from "../models/auth";
+import { AuthUser } from "../models/user";
+import { baseUrl } from "../common/constants.ts";
+import { LoginRequest, LoginResponse } from "../models/auth";
 
 export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
     "auth/login",
-    async ({email, password}, thunkAPI) => {
+    async ({ email, password }, thunkAPI) => {
         try {
             thunkAPI.dispatch(loginStart());
-            const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', {email, password})).data;
+            const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', { email, password })).data;
             thunkAPI.dispatch(loginSuccess(response));
             return response;
         } catch (error) {
@@ -28,11 +28,42 @@ export const logoutThunk = createAsyncThunk(
         }
     });
 
+export const editProfileThunk = createAsyncThunk(
+    "auth/editProfile",
+    async ({ _id, username, description, profilePicture }: any, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.token;
+            const response = await axios.put(
+                `${baseUrl}/user/profile/edit`,
+                { _id, username, description, profilePicture },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                console.log('Success', response.data.user);
+                return response.data.user; // Retorna el usuario actualizado
+            } else {
+                throw new Error('Failed to update profile');
+            }
+        } catch (error) {
+            console.error(error);
+            return thunkAPI.rejectWithValue(error.response?.data || 'Unknown error');
+        }
+    }
+);
+
+
 export interface IAuth {
     user: AuthUser | null;
     token: string | null;
     isLoading: boolean;
     error: string | null;
+    id: string | null;
 }
 
 const initialState: IAuth = {
@@ -77,11 +108,18 @@ const authSlice = createSlice({
         // builder.addCase(loginThunk.fulfilled, (state, action) => {
         //     state.token = action.payload;
         // });
+        builder.addCase(editProfileThunk.fulfilled, (state, action) => {
+            state.user = {
+                ...state.user,
+                ...action.payload, // Actualiza los campos que vengan en la respuesta
+            };
+            sessionStorage.setItem("user", JSON.stringify(state.user)); // Actualiza en sessionStorage
+        });
         builder.addCase(loginThunk.rejected, (state, action) => {
             state.error = action.payload;
         });
     }
 });
 
-export const {loginStart, loginSuccess, loginFailure, logout} = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 export default authSlice.reducer;

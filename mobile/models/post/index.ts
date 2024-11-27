@@ -1,11 +1,6 @@
 export interface PostDTO {
+    __v: number;
     _id: string;
-    user: {
-        _id: string,
-        username: string,
-        profilePicture: string
-    };
-    imageUrl: string;
     caption: string;
     comments: {
         _id: string,
@@ -15,7 +10,12 @@ export interface PostDTO {
             username: string,
         },
     }[];
-    likes: any[];
     createdAt: string;
-    __v: number;
+    imageUrl: string;
+    likes: any[];
+    user: {
+        _id: string;
+        profilePicture: string;
+        username: string;
+    };
 }

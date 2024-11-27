@@ -37,7 +37,11 @@ const getFeed = async (req, res) => {
       .populate("user", "username profilePicture")
       .populate({
         path: "comments",
-        select: "content", // Selecciona solo el campo content de los comentarios
+        select: "content",
+        populate: {
+          path: "user",
+          select: "username",
+        },
       });
     res.json(posts);
   } catch (error) {

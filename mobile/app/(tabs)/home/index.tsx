@@ -1,8 +1,16 @@
-import {SafeAreaView, Text, View} from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
+import { PostDTO } from "@/models/post";
+import Feed from "../../../components/FeedComponents/Feed";
+import { baseUrl } from "@/common/constants";
+import { useSelector } from "react-redux";
 
 export default function Home() {
+
+    const [posts, setPosts] = useState<PostDTO[]>([]);
+
     const [token, setToken] = useState(null);
     const [user, setUser] = useState()
 
@@ -21,12 +29,35 @@ export default function Home() {
         fetchToken();
     }, []);
 
+    useEffect(() => {
+        fetch(baseUrl + "/posts/feed", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            }
+        }).then(response => response.json())
+            .then(data => {
+                setPosts(data);
+            });
+    }, [token]);
+
     return (
-        <SafeAreaView>
-            <Text>HomeEE</Text>
-            {token && <Text>Token: {token}</Text>}
-            {user && <Text>User: {user}</Text>}
+        <SafeAreaView style={styles.container} >
+            <Text>Home</Text>
+            {posts.length > 0 && <Feed {...posts} />}
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    text: {
+        fontSize: 20,
+    },
+})
 
