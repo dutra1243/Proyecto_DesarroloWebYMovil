@@ -1,4 +1,4 @@
-import { Button, Image, StyleSheet, Text, View } from 'react-native'
+import { Button, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { UserDto } from '@/models/user'
 import { PostDTO } from '@/models/post/PostDTO'
@@ -19,6 +19,11 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
         router.replace("/");
     }
 
+    const handleEdit = () => {
+        console.log("EDIT PROFILE")
+        router.push({pathname: "/EditModal"})
+    }
+
     const [user, setUser] = useState<UserDto | null>(null)
 
     useEffect(() => {
@@ -34,7 +39,7 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
 
     return (
         <View style={{}} >
-            <View style={{flexDirection: "row", gap: 50}} >
+            <View style={{flexDirection: "row", gap: 50}} > 
 
                 {props.user.profilePicture !== "" ? <Image style={styles.image} source={{ uri: props.user.profilePicture }} ></Image>
                     : <Image style={styles.image} source={{ uri: genericProfilePicture }} ></Image>}
@@ -42,8 +47,12 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
                     <Text>{props.user.username}</Text>
                     {user && props.user.email === user.email ? 
                     <View style={{flexDirection: "row", gap: 20}} >
-                        <MaterialCommunityIcons size={40} name="account-edit" ></MaterialCommunityIcons>
-                        <MaterialCommunityIcons size={40} name="logout" onPress={handleLogout}></MaterialCommunityIcons>
+                        <Pressable onPress={handleEdit}  >
+                            <MaterialCommunityIcons size={40} name="account-edit" ></MaterialCommunityIcons>
+                        </Pressable>
+                        <Pressable  onPress={handleLogout} >
+                            <MaterialCommunityIcons size={40} name="logout" ></MaterialCommunityIcons>
+                        </Pressable>
                     </View>
                     : <MaterialCommunityIcons size={40} name="account-plus" ></MaterialCommunityIcons>}
                 </View>

@@ -22,7 +22,7 @@ export default function TabsLayout() {
                 />
                 <Tabs.Screen name="profile/index" options={{
                     title: "Perfil",
-                    headerShown: false,
+                    headerTitle: "My Profile", headerTitleAlign: "center",
                     tabBarIcon: ({ focused }) => <MaterialCommunityIcons name="account" color={focused ? "blue" : "grey"} size={24} />,
                 }}
                 />

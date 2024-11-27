@@ -12,7 +12,7 @@ import { UserDto } from '@/models/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from '@/store/store';
 
-export default function Profile() {
+export default function Profile({id} : {id? : string}) {
 
 
  
@@ -35,13 +35,16 @@ export default function Profile() {
     // console.log(user)
     // console.log(token)
 
-
+    
     useEffect(() => {
         if (token && user) {
             console.log("token", token)
             console.log("user", user)
+            console.log("id", id)
+            const idToFetch = id ? id : user._id
+            console.log("idToFetch",idToFetch)
 
-            fetch(baseUrl + '/user/profile/' + user._id, {
+            fetch(baseUrl + '/user/profile/' + idToFetch, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,7 +66,7 @@ export default function Profile() {
     
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{gap :10, margin: 25}} >
             <View>
                 {(token && profile && profile.user && profile.posts) && <UserInfo {...profile}></UserInfo>}
             </View>

@@ -12,7 +12,7 @@ const PostHeader = ({ _id, profilePicture, username, createdAt }:
     }) => {
 
     const handleVisitProfile = () => {
-        router.push({ pathname: "/[id]", params: { id: _id } });
+        router.push({ pathname: "/profileById/[id]", params: { id: _id } });
     }    
     
 
