@@ -1,4 +1,3 @@
-// post.tsx
 import { PostHeader } from './postHeader/PostHeader';
 import { PostFooter } from './postFooter/PostFooter';
 import { PostDTO } from '../../models/post/PostDTO';
@@ -26,7 +25,6 @@ export const Post = (props: PostDTO) => {
         console.log(newComment)
         setComments([...comments, newComment]);
     };
-    console.log(`${baseUrlNotApi}/${props.imageUrl}`)
 
     return (
         <>
