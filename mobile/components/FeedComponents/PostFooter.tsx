@@ -2,6 +2,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
+import { baseUrl } from '@/common/constants';
 import { CommentDTO } from '@/models/post';
 
 const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
@@ -43,7 +44,7 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
 
     const handleAddComment = () => {
         if (newComment.trim()) {
-            fetch(`http://localhost:3001/api/posts/${_id}/comments`, {
+            fetch(`${baseUrl}/posts/${_id}/comments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

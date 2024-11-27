@@ -1,6 +1,6 @@
-import {Slot, Tabs} from "expo-router";
-import {View, Text, SafeAreaView} from "react-native";
-import {Icon} from "react-native-paper";
+import { Slot, Tabs } from "expo-router";
+import { View, Text, SafeAreaView } from "react-native";
+import { Icon } from "react-native-paper";
 import Home from "@/app/(tabs)/home";
 
 export default function TabsLayout() {
@@ -15,6 +15,11 @@ export default function TabsLayout() {
             >
                 <Tabs.Screen name="home/index" options={{
                     title: "Inicio",
+                    headerShown: false,
+                }}
+                />
+                <Tabs.Screen name="addPost/index" options={{
+                    title: "Añadir",
                     headerShown: false,
                 }}
                 />
