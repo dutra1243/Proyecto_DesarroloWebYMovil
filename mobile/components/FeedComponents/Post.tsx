@@ -27,7 +27,7 @@ const Post = (props: PostDTO) => {
         <View style={styles.container}>
             <PostHeader {...props.user} createdAt={props.createdAt} ></PostHeader>
             <Image source={{ uri: props.imageUrl }} style={styles.postImage} ></Image>
-            <PostFooter _id={props._id} caption={props.caption} likes={props.likes} comments={props.comments} onAddComment={handleAddComment} onAddLike={handleAddLike} ></PostFooter>
+            <PostFooter _id={props._id} caption={props.caption} likes={props.likes} comments={comments} onAddComment={(value) => handleAddComment(value)} onAddLike={handleAddLike} ></PostFooter>
         </View>
     )
 }

@@ -1,5 +1,6 @@
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
 
 const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
@@ -26,8 +27,23 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
         onAddLike: (likeID: string[]) => void;
     }
 ) => {
-    const token = useSelector((state: any) => state.auth.token._j)
-    const username = useSelector((state: any) => state.auth.user)
+    const [token, setToken] = useState(null);
+    const [user, setUser] = useState()
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            try {
+                const storedToken = await AsyncStorage.getItem("token");
+                setToken(storedToken);
+                const storedUser = await AsyncStorage.getItem("user");
+                setUser(JSON.parse(storedUser));
+            } catch (error) {
+                console.error("Error al recuperar el token:", error);
+            }
+        };
+
+        fetchToken();
+    }, []);
     const [liked, setLiked] = useState(likes.includes(_id));
     const [likesLength, setLikesLength] = useState(likes.length);
     const [newComment, setNewComment] = useState('');
@@ -51,11 +67,10 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
                         content: data.content,
                         user: {
                             _id: data.user,
-                            username: username
+                            username: user.username
                         }
                     }
                     onAddComment(newComment);
-                    console.log(newComment)
                 })
                 .catch((error) => {
                     console.error('Error:', error);

@@ -13,3 +13,9 @@ export interface AuthUser {
     profilePicture: string;
     createdAt: Date;
 }
+
+export interface StateUser {
+    _id: string;
+    username: string;
+    email: string;
+}
