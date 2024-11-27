@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
-import { PostDTO } from '@/models/post'
+import { CommentDTO, PostDTO } from '@/models/post'
 import PostHeader from './PostHeader'
 import PostFooter from './PostFooter'
 
@@ -13,14 +13,7 @@ const Post = (props: PostDTO) => {
         setLikes(newLikeID);
     };
 
-    const handleAddComment = (newComment: {
-        _id: string,
-        content: string,
-        user: {
-            _id: string,
-            username: string,
-        },
-    }) => {
+    const handleAddComment = (newComment: CommentDTO) => {
         setComments([...comments, newComment]);
     };
     return (

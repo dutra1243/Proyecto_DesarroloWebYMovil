@@ -2,28 +2,15 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
+import { CommentDTO } from '@/models/post';
 
 const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
     {
         _id: string;
         caption: string;
         likes: any[];
-        comments: {
-            _id: string,
-            content: string,
-            user: {
-                _id: string,
-                username: string,
-            },
-        }[];
-        onAddComment: (comment: {
-            _id: string,
-            content: string,
-            user: {
-                _id: string,
-                username: string,
-            },
-        }) => void;
+        comments: CommentDTO[];
+        onAddComment: (comment: CommentDTO) => void;
         onAddLike: (likeID: string[]) => void;
     }
 ) => {
@@ -68,7 +55,7 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
             }
             ).then((res) => res.json())
                 .then((data) => {
-                    let newComment = {
+                    let newComment: CommentDTO = {
                         _id: data._id,
                         content: data.content,
                         user: {
