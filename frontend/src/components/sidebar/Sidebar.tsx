@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Logout } from "../logout/Logout.tsx";
 import { useSelector } from "react-redux";
 import './sidebar.css';
-import { Home, AccountCircle } from '@mui/icons-material'; // Importa iconos de Material UI
+import { Home, AccountCircle } from '@mui/icons-material'; 
 
 export const Sidebar = () => {
     const userId = useSelector((state: any) => state.auth.user._id);
@@ -23,7 +23,9 @@ export const Sidebar = () => {
             </div>
 
             {/* Logout */}
-            <Logout />
+            <div className="logout">
+                <Logout />
+            </div>
         </div>
     );
 };
