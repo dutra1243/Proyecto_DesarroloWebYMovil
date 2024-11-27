@@ -2,13 +2,14 @@ import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native
 import React from 'react'
 import { PostDTO } from '@/models/post/PostDTO'
 
-const UserPictures = (props: PostDTO[]) => {
+const UserPictures = ({posts} : { posts : PostDTO[]}) => {
+    
 
-
+    console.log("POSTSSSSSSSSSSSSSSSSSS", posts)
 
     return (
-        <View>
-            <FlatList data={props} renderItem={({ item }) => <Pressable><Image style={styles.image} source={{ uri: item.imageUrl }} ></Image></Pressable>} ></FlatList>
+        <View >
+            <FlatList data={posts} renderItem={({ item }) => <Image style={styles.image} source={{ uri: item.imageUrl }} ></Image>} ></FlatList>
         </View>
     )
 }
@@ -17,7 +18,7 @@ export default UserPictures
 
 const styles = StyleSheet.create({
     image: {
-        width: 80,
-        height: 80,
+        width: 100,
+        height: 100,
     }
 })

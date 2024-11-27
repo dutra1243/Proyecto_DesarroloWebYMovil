@@ -10,12 +10,10 @@ import { baseUrl } from '@/common/constants';
 import { PostDTO } from '@/models/post/PostDTO';
 import { UserDto } from '@/models/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { store } from '@/store/store';
 
-export default function Profile() {
+export default function ProfileFromHome() {
 
 
- 
     const [user, setUser] = useState<UserDto | null>(null)
     const [token, setToken] = useState<string | null>(null)
 
@@ -23,8 +21,6 @@ export default function Profile() {
         const fetchToken = async () => {
             const storedToken = await AsyncStorage.getItem("token");
             setToken(storedToken);
-            const storedUser = await AsyncStorage.getItem("user")
-            setUser(JSON.parse(storedUser))
             console.log("Token recuperado:", storedToken);
         }
         fetchToken()
@@ -32,16 +28,17 @@ export default function Profile() {
 
     const [profile, setProfile] = useState<{ posts: PostDTO[], user: UserDto } | null>(null)
 
+    const id = useLocalSearchParams().id
+
     // console.log(user)
     // console.log(token)
 
-
     useEffect(() => {
-        if (token && user) {
+        if (token) {
             console.log("token", token)
-            console.log("user", user)
+            console.log("id", id)
 
-            fetch(baseUrl + '/user/profile/' + user._id, {
+            fetch(baseUrl + '/user/profile/' + id, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,11 +53,6 @@ export default function Profile() {
                 });
         }
     }, [token, user])
-
-    console.log("PROFILE>>>>>>", profile )
-    console.log("PROFILE.POSTS>>>>>>>", profile?.posts)
-
-    
 
     return (
         <SafeAreaView>

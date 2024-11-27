@@ -8,6 +8,9 @@ import { baseUrl } from "@/common/constants";
 import { useSelector } from "react-redux";
 
 export default function Home() {
+
+    const [posts, setPosts] = useState<PostDTO[]>([]);
+
     const [token, setToken] = useState(null);
     const [user, setUser] = useState()
 
@@ -17,7 +20,7 @@ export default function Home() {
                 const storedToken = await AsyncStorage.getItem("token");
                 setToken(storedToken);
                 const storedUser = await AsyncStorage.getItem("user");
-                setUser(storedUser);
+                setUser(JSON.parse(storedUser));
             } catch (error) {
                 console.error("Error al recuperar el token:", error);
             }
@@ -26,11 +29,23 @@ export default function Home() {
         fetchToken();
     }, []);
 
+    useEffect(() => {
+        fetch(baseUrl + "/posts/feed", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            }
+        }).then(response => response.json())
+            .then(data => {
+                setPosts(data);
+            });
+    }, [token]);
+
     return (
-        <SafeAreaView>
-            <Text>HomeEE</Text>
-            {token && <Text>Token: {token}</Text>}
-            {user && <Text>User: {user}</Text>}
+        <SafeAreaView style={styles.container} >
+            <Text>Home</Text>
+            {posts.length > 0 && <Feed {...posts} />}
         </SafeAreaView>
     );
 }
@@ -45,4 +60,3 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
 })
-

@@ -1,5 +1,7 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View, Pressable } from 'react-native'
 import React from 'react'
+import { router } from 'expo-router';
+
 
 const PostHeader = ({ _id, profilePicture, username, createdAt }:
     {
@@ -8,10 +10,18 @@ const PostHeader = ({ _id, profilePicture, username, createdAt }:
         username: string;
         createdAt: string;
     }) => {
+
+    const handleVisitProfile = () => {
+        router.push({ pathname: "/[id]", params: { id: _id } });
+    }    
+    
+
     return (
         <View >
-            <Image src={profilePicture} />
-            <Text>{username}</Text>
+            <Pressable onPress={handleVisitProfile}>
+                <Image src={profilePicture} />
+                <Text>{username}</Text>
+            </Pressable >
             <Text>{createdAt}</Text>
         </View>
     )
