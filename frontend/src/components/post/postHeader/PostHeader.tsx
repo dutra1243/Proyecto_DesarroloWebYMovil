@@ -9,7 +9,6 @@ export const PostHeader = (props: {
     },
     createdAt: string
 }) => {
-
     const creation = props.createdAt.split('T');
     const date = creation[0].split('-').join('/');
     const time = creation[1].split('.')[0].split(':').slice(0, 2).join(':');
@@ -17,14 +16,21 @@ export const PostHeader = (props: {
     const navigate = useNavigate();
 
     return (
-        <div className='post'>
-            <div className='postHeader'>
-                <div className='headerButton' onClick={() => { navigate('/profile/' + props.user._id); }}>
-                    <img src={props.user.profilePicture || "/vite.svg"} alt="profilePicture" className='profilePicture' />
-                    <h2 className='username'>{props.user.username}</h2>
+        <div className="postHeader">
+            <div className="userInfo" onClick={() => navigate('/profile/' + props.user._id)}>
+                <img
+                    src={props.user.profilePicture || "/vite.svg"}
+                    alt="profilePicture"
+                    className="profilePicture"
+                />
+                <div>
+                    <h3 className="username">{props.user.username}</h3>
+                    <p className="postDate">{date} at {time}</p>
                 </div>
-                <p className='dateTime'>{date} - {time}</p>
             </div>
+            <button className="optionsButton">⋮</button>
         </div>
     );
-}
+};
+
+ 

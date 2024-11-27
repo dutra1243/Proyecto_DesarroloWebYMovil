@@ -8,6 +8,7 @@ import { baseUrl } from '../../common/constants'
 import { useState } from 'react'
 import { PostDTO } from '../../models/post/PostDTO'
 import { Post } from '../post/Post'
+import "./Profile.css"
 
 export const Profile = () => {
     const token = useSelector((state: any) => state.auth.token)
