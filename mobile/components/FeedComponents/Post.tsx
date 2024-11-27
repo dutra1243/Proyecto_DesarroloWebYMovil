@@ -13,7 +13,14 @@ const Post = (props: PostDTO) => {
         setLikes(newLikeID);
     };
 
-    const handleAddComment = (newComment: string) => {
+    const handleAddComment = (newComment: {
+        _id: string,
+        content: string,
+        user: {
+            _id: string,
+            username: string,
+        },
+    }) => {
         setComments([...comments, newComment]);
     };
     return (

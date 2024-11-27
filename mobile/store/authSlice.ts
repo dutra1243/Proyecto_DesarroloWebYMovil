@@ -1,16 +1,16 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import {AuthUser} from "../models/user";
-import {baseUrl} from "@/common/constants";
-import {LoginRequest, LoginResponse, SignUpRequest, SignUpResponse} from "@/models/auth";
+import { AuthUser } from "../models/user";
+import { baseUrl } from "@/common/constants";
+import { LoginRequest, LoginResponse, SignUpRequest, SignUpResponse } from "@/models/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
     "auth/login",
-    async ({email, password}, thunkAPI) => {
+    async ({ email, password }, thunkAPI) => {
         try {
             thunkAPI.dispatch(loginStart());
-            const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', {email, password})).data;
+            const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', { email, password })).data;
             thunkAPI.dispatch(loginSuccess(response));
             return response;
         } catch (error) {
@@ -21,7 +21,7 @@ export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
 
 export const signUpThunk = createAsyncThunk<SignUpResponse, SignUpRequest>(
     "auth/register",
-    async ({username, email, password}, thunkAPI) => {
+    async ({ username, email, password }, thunkAPI) => {
         try {
             thunkAPI.dispatch(loginStart());
             const response: SignUpResponse = (await axios.post(baseUrl + '/auth/register', {
@@ -31,7 +31,7 @@ export const signUpThunk = createAsyncThunk<SignUpResponse, SignUpRequest>(
             })).data;
             thunkAPI.dispatch(loginSuccess(response));
             console.log('aaa')
-            console.log({response})
+            console.log({ response })
             return response;
         } catch (error) {
             thunkAPI.dispatch(loginFailure(error.response.data));
@@ -102,5 +102,5 @@ const authSlice = createSlice({
     }
 });
 
-export const {loginStart, loginSuccess, loginFailure, logout} = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 export default authSlice.reducer;

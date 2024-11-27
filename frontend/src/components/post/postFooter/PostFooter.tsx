@@ -20,8 +20,22 @@ export const PostFooter = ({
     username: string;
     caption: string;
     likes: any[];
-    comments: any[];
-    onAddComment: (comment: string) => void;
+    comments: {
+        _id: string,
+        content: string,
+        user: {
+            _id: string,
+            username: string,
+        },
+    }[];
+    onAddComment: (comment: {
+        _id: string,
+        content: string,
+        user: {
+            _id: string,
+            username: string,
+        },
+    }) => void;
     onAddLike: (likeID: string[]) => void;
 }) => {
 
@@ -106,6 +120,8 @@ export const PostFooter = ({
         }
     }
 
+    console.log(comments)
+
     return (
         <>
             <div className='postFooter'>
@@ -122,7 +138,7 @@ export const PostFooter = ({
                         </div>
                     }
                     <p>{comments.length} comments</p>
-                    {comments.map((comment) => <p key={comment._id} >{comment.content}</p>)}
+                    {comments.map((comment) => <p key={comment._id} >{comment.user.username}: {comment.content}</p>)}
                 </div>
 
                 <input

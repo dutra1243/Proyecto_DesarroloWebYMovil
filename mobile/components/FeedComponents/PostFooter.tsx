@@ -1,5 +1,5 @@
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
 const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
@@ -7,15 +7,29 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
         _id: string;
         caption: string;
         likes: any[];
-        comments: any[];
-        onAddComment: (comment: string) => void;
+        comments: {
+            _id: string,
+            content: string,
+            user: {
+                _id: string,
+                username: string,
+            },
+        }[];
+        onAddComment: (comment: {
+            _id: string,
+            content: string,
+            user: {
+                _id: string,
+                username: string,
+            },
+        }) => void;
         onAddLike: (likeID: string[]) => void;
     }
 ) => {
     const token = useSelector((state: any) => state.auth.token._j)
+    const username = useSelector((state: any) => state.auth.user)
     const [liked, setLiked] = useState(likes.includes(_id));
     const [likesLength, setLikesLength] = useState(likes.length);
-
     const [newComment, setNewComment] = useState('');
 
     const handleAddComment = () => {
@@ -32,9 +46,16 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
             }
             ).then((res) => res.json())
                 .then((data) => {
-                    console.log(data)
-                    onAddComment(data);
-
+                    let newComment = {
+                        _id: data._id,
+                        content: data.content,
+                        user: {
+                            _id: data.user,
+                            username: username
+                        }
+                    }
+                    onAddComment(newComment);
+                    console.log(newComment)
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -103,7 +124,7 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
                 )}
                 <Text>{comments.length} comments</Text>
                 {comments.map((comment) => (
-                    <Text key={comment._id}>{comment.content}</Text>
+                    <Text key={comment._id}>{comment.user.username}: {comment.content}</Text>
                 ))}
             </View>
 
