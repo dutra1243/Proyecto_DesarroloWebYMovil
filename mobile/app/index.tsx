@@ -31,7 +31,6 @@ export default function Index() {
             try {
                 const storedToken = await AsyncStorage.getItem("token");
                 setToken(storedToken);
-                console.log("Token recuperado:", storedToken);
                 if (storedToken) {
                     router.replace("/(tabs)/home");
                 }
