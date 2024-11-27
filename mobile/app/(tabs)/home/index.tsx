@@ -13,6 +13,7 @@ export default function Home() {
 
     const [token, setToken] = useState(null);
 
+
     useEffect(() => {
         const fetchToken = async () => {
             try {
@@ -57,4 +58,3 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
 })
-

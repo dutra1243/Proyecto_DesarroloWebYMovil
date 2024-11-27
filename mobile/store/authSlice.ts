@@ -1,3 +1,4 @@
+
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {StateUser} from "../models/user";
@@ -7,9 +8,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
     "auth/login",
-    async ({email, password}, thunkAPI) => {
+    async ({ email, password }, thunkAPI) => {
         try {
             thunkAPI.dispatch(loginStart());
+
             const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', {
                 email,
                 password
@@ -24,7 +26,7 @@ export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
 
 export const signUpThunk = createAsyncThunk<SignUpResponse, SignUpRequest>(
     "auth/register",
-    async ({username, email, password}, thunkAPI) => {
+    async ({ username, email, password }, thunkAPI) => {
         try {
             thunkAPI.dispatch(loginStart());
             const response: SignUpResponse = (await axios.post(baseUrl + '/auth/register', {
@@ -61,7 +63,7 @@ export interface IAuth {
 }
 
 const initialState: IAuth = {
-    user: null, // Aquí se almacenarán los datos del usuario logueado
+    user: AsyncStorage.getItem("user") || null, // Recuperar el user desde AsyncStorage
     token: AsyncStorage.getItem("token") || null, // Recuperar token del AsyncStorage si existe
     isLoading: false, // Para manejar el estado de carga
     error: null, // Para almacenar errores de autenticación
@@ -94,6 +96,7 @@ const authSlice = createSlice({
             state.token = null;
             state.error = null;
             AsyncStorage.removeItem("token");
+            AsyncStorage.removeItem("user");
             console.log("Token eliminado de AsyncStorage");
         },
     },
@@ -107,5 +110,5 @@ const authSlice = createSlice({
     }
 });
 
-export const {loginStart, loginSuccess, loginFailure, logout} = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 export default authSlice.reducer;

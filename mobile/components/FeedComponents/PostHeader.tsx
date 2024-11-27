@@ -1,23 +1,29 @@
-import {Image, StyleSheet, Text, View} from 'react-native'
+import { Image, StyleSheet, Text, View, Pressable } from 'react-native'
 import React from 'react'
-import {difDate} from "@/common/utils";
+import { router } from 'expo-router';
 
 
-const PostHeader = ({_id, profilePicture, username, createdAt}:
-                        {
-                            _id: string;
-                            profilePicture: string;
-                            username: string;
-                            createdAt: string;
-                        }) => {
-    // console.log({profilePicture})
+const PostHeader = ({ _id, profilePicture, username, createdAt }:
+    {
+        _id: string;
+        profilePicture: string;
+        username: string;
+        createdAt: string;
+    }) => {
+
+    const handleVisitProfile = () => {
+        router.push({ pathname: "/profileById/[id]", params: { id: _id } });
+    }    
+    
+
     return (
-        <View style={styles.container}>
-            <View style={styles.secondContainer}>
-                <Image style={styles.minPic} src={profilePicture}/>
-                <Text>@{username}</Text>
-            </View>
-            <Text>{difDate(createdAt)}</Text>
+        <View >
+            <Pressable onPress={handleVisitProfile}>
+                <Image src={profilePicture} />
+                <Text>{username}</Text>
+            </Pressable >
+            <Text>{createdAt}</Text>
+
         </View>
     )
 }

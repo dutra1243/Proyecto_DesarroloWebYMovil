@@ -1,26 +1,77 @@
-import {Text, SafeAreaView} from 'react-native';
-import {Button} from "react-native-paper";
-import {useDispatch} from "react-redux";
-import {logoutThunk} from "@/store/authSlice";
-import {router} from "expo-router";
+import { Text, SafeAreaView, View, Button } from 'react-native';
+import UserInfo from '@/components/ProfileComponents/UserInfo';
+import UserPictures from '@/components/ProfileComponents/UserPictures';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { baseUrl } from '@/common/constants';
+import { PostDTO } from '@/models/post/PostDTO';
+import { UserDto } from '@/models/user';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ChangeContext } from '@/components/Context/ChangeProvider';
 
-export default function Profile() {
-    const dispatch = useDispatch();
+export default function Profile({id} : {id? : string}) {
 
 
-    const handleLogout = async () => {
-        await dispatch(logoutThunk());
-        router.replace("/");
-    }
+ 
+    const [user, setUser] = useState<UserDto | null>(null)
+    const [token, setToken] = useState<string | null>(null)
+
+    const [isChanged, setIsChanged] = useContext(ChangeContext)
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            const storedToken = await AsyncStorage.getItem("token");
+            setToken(storedToken);
+            const storedUser = await AsyncStorage.getItem("user")
+            setUser(JSON.parse(storedUser))
+            console.log("Token recuperado:", storedToken);
+        }
+        fetchToken()
+    }, [])
+
+    const [profile, setProfile] = useState<{ posts: PostDTO[], user: UserDto } | null>(null)
+
+    // console.log(user)
+    // console.log(token)
+
+    
+    useEffect(() => {
+        if (token && user) {
+            console.log("token", token)
+            console.log("user", user)
+            console.log("id", id)
+            const idToFetch = id ? id : user._id
+            console.log("idToFetch",idToFetch)
+
+            fetch(baseUrl + '/user/profile/' + idToFetch, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + token
+                },
+            }).then(response => response.json())
+                .then((data) => {
+                    console.log("fetch user profile", data)
+                    setProfile(data)
+                }).catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    }, [token, user, isChanged])
+
+    // console.log("PROFILE>>>>>>", profile )
+    console.log("FRIENDS>>>>>>>>>>>>", profile?.user.friends)
+    // console.log("PROFILE.POSTS>>>>>>>", profile?.posts)
+
+    
 
     return (
-        <SafeAreaView>
-            <Text>Profile Tab</Text>
-            <Button
-                onPress={handleLogout}
-            >
-                Logout
-            </Button>
+        <SafeAreaView style={{gap :10, margin: 25}} >
+            <View >
+                {(token && profile && profile.user && profile.posts) && <UserInfo {...profile}></UserInfo>}
+            </View>
+            <View>
+                {(token && profile && profile.posts) && <UserPictures posts={profile.posts}></UserPictures>}
+            </View>
         </SafeAreaView>
     );
 }
