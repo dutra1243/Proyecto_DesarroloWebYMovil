@@ -23,6 +23,7 @@ export default function TabsLayout() {
                 <Tabs.Screen name="addPost/index" options={{
                     title: "Añadir",
                     headerShown: false,
+                    tabBarIcon: ({ focused }) => <MaterialCommunityIcons name="plus-box" color={focused ? "blue" : "grey"} size={24} />,
                 }}
                 />
                 <Tabs.Screen name="profile/index" options={{

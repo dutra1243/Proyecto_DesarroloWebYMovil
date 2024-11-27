@@ -1,6 +1,7 @@
 import { Image, StyleSheet, Text, View, Pressable } from 'react-native'
 import React from 'react'
 import { router } from 'expo-router';
+import { difDate } from '@/common/utils';
 
 
 const PostHeader = ({ _id, profilePicture, username, createdAt }:
@@ -13,17 +14,18 @@ const PostHeader = ({ _id, profilePicture, username, createdAt }:
 
     const handleVisitProfile = () => {
         router.push({ pathname: "/profileById/[id]", params: { id: _id } });
-    }    
-    
+    }
+
 
     return (
-        <View >
+        <View style={styles.container}>
             <Pressable onPress={handleVisitProfile}>
-                <Image src={profilePicture} />
-                <Text>{username}</Text>
-            </Pressable >
-            <Text>{createdAt}</Text>
-
+                <View style={styles.secondContainer}>
+                    <Image style={styles.minPic} src={profilePicture} />
+                    <Text>@{username}</Text>
+                </View>
+            </Pressable>
+            <Text>{difDate(createdAt)}</Text>
         </View>
     )
 }
