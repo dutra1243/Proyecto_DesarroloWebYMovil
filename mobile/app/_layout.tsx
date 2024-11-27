@@ -18,6 +18,7 @@ export default function RootLayout() {
                             <Stack.Screen name="index" />
                             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                             <Stack.Screen name="profileById/[id]" options={{headerTitle: "Profile", headerTitleAlign: "center"}} />
+                            <Stack.Screen name="friendsList/[id]" options={{headerTitle: "Friends", headerTitleAlign: "center"}} />
                             <Stack.Screen name="[id]"  options={{headerTitle: "Edit your profile", headerTitleAlign: "center"}} />
                         </Stack>
                     </SafeAreaProvider>

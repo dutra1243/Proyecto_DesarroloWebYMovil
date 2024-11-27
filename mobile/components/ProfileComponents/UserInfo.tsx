@@ -1,5 +1,5 @@
 import { Button, Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { UserDto } from '@/models/user'
 import { PostDTO } from '@/models/post/PostDTO'
 import { useSelector, useDispatch } from 'react-redux'
@@ -9,6 +9,8 @@ import { logoutThunk } from '@/store/authSlice'
 import { router } from 'expo-router'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { baseUrl } from '@/common/constants'
+import { ChangeContext } from '../Context/ChangeProvider'
+import { genericProfilePicture } from '@/common/constants'
 
 
 const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
@@ -23,6 +25,7 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
     
     const [user, setUser] = useState<UserDto | null>(null)
     const [token, setToken] = useState<string | null>(null)
+    const [isChanged, setIsChanged] = useContext(ChangeContext)
 
     useEffect(() => {
         const fetchToken = async () => {
@@ -33,8 +36,6 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
         }
         fetchToken()
     }, [])
-
-    const genericProfilePicture = "https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg"
 
     const handleEdit = () => {
         console.log("EDIT PROFILE")
@@ -63,6 +64,7 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
                 console.log(response)
                 setIsFriend(false)
                 setFriendsAmount(friendsAmount - 1)
+                setIsChanged(!isChanged)
                 alert(response.message);
             }
         })
@@ -85,10 +87,15 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
                 console.log(response)
                 setIsFriend(true)
                 setFriendsAmount(friendsAmount + 1)
+                setIsChanged(!isChanged)
             } else {
-            alert(response.message);
+                alert(response.message);
             }
         })
+    }
+
+    const handleShowFriends = () => {
+        router.push({pathname : "/friendsList/[id]", params : {id: props.user._id }})
     }
 
     return (
@@ -126,7 +133,9 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
             </View>
             <View style={{flexDirection: "row", gap: 10}} >
                 <Text>{props.posts.length} posts</Text>
-                <Text>{friendsAmount} friends</Text>
+                <Pressable onPress={handleShowFriends}>
+                    <Text>{friendsAmount} friends</Text>
+                </Pressable>
             </View>
         </View>
     )
@@ -153,7 +162,7 @@ const styles = StyleSheet.create({
     image: {
         width: 80,
         height: 80,
-        borderRadius: 40,
+        borderRadius: 50,
     },
     userInfo: {
         marginLeft: 10,
