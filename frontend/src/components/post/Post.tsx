@@ -19,7 +19,6 @@ export const Post = (props: PostDTO) => {
     const handleAddComment = (newComment: string) => {
         setComments([...comments, newComment]);
     };
-    console.log(`${baseUrlNotApi}/${props.imageUrl}`)
 
     return (
         <>
