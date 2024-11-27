@@ -1,156 +1,307 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ImageSelection from '@/components/AddPostCompoments/ImagePicker';
-import CameraButton from '@/components/AddPostCompoments/CameraButton';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import React, { useState, useEffect, useRef } from 'react';
+import { CameraView, CameraType, useCameraPermissions, Camera } from 'expo-camera';
+
+import { Button, Text, SafeAreaView, ScrollView, StyleSheet, Image, View, TouchableOpacity, TextInput, Alert, Pressable, FlatList } from 'react-native';
+import * as MediaLibrary from 'expo-media-library';
+import * as ImageManipulator from 'expo-image-manipulator';
+import * as FileSystem from 'expo-file-system';
+import { router, useNavigation } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 import { baseUrl } from '@/common/constants';
-import { loadImageBase64 } from '@/utils/base64converter';
 
-const AddPost = () => {
-    const [token, setToken] = useState(null);
-    const [user, setUser] = useState()
-    const [image, setImage] = useState<{
-        uri: string,
-        type: string,
-        name: string,
-    }>();
-    const [caption, setCaption] = useState<string>("");
+export default function CreatePost() {
+    const [images, setImages] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [description, setDescription] = useState("");
+    const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
+    const [page, setPage] = useState(1);
+    const cameraRef = useRef(null);
 
-    const handleUpload = async () => {
-        if (!image || !caption) {
-            console.error('Image and caption are required');
+    const [facing, setFacing] = useState<'back' | 'front'>('back');
+    const [useCamera, setUseCamera] = useState(false);
+    const [permission, requestCameraPermission] = useCameraPermissions();
+
+    const navigation = useNavigation();
+
+    const fetchImages = async () => {
+        try {
+            const albumAssets = await MediaLibrary.getAssetsAsync({
+                first: 10,
+                after: images.length > 0 ? images[images.length - 1].id : undefined,
+                mediaType: 'photo',
+            });
+
+            const imagePromises = await Promise.all(albumAssets.assets.map(async (asset) => {
+                const localUri = await getLocalUri(asset.id);
+                const compressedUri = await compressImage(localUri);
+
+                return { id: asset.id, uri: compressedUri };
+            }));
+
+            setImages([...images, ...imagePromises].filter((image, index, self) => self.findIndex((t) => t.id === image.id) === index));
+        } catch (error) {
+            Alert.alert("Error", "Error al cargar las imágenes.");
+        }
+    };
+
+    const getLocalUri = async (id) => {
+        try {
+            const assetInfo = await MediaLibrary.getAssetInfoAsync(id);
+
+            if (!assetInfo) {
+                throw new Error('Asset info is null');
+            }
+            const localUri = assetInfo.localUri || assetInfo.uri;
+
+            const fileInfo = await FileSystem.getInfoAsync(localUri);
+
+            if (!fileInfo.exists) {
+                const downloadResumable = FileSystem.createDownloadResumable(
+                    localUri,
+                    FileSystem.documentDirectory + 'photo.jpg'
+                );
+                const { uri: downloadedUri } = await downloadResumable.downloadAsync();
+                return downloadedUri;
+            } else {
+                return localUri;
+            }
+        } catch (error) {
+            console.error("Error getting local URI:", error);
+            return uri;
+        }
+    };
+
+    const compressImage = async (uri) => {
+        try {
+            const manipResult = await ImageManipulator.manipulateAsync(
+                uri,
+                [{ resize: { width: 300 } }],
+                { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+            );
+
+            return manipResult.uri;
+        } catch (error) {
+            console.error("Error comprimiendo la imagen:", error);
+            return uri;
+        }
+    };
+
+    useEffect(() => {
+        if (permissionResponse?.status === 'granted') {
+            fetchImages(page);
+        }
+    }, [permissionResponse, page]);
+
+    const handleSelectImage = async (uri) => {
+        setUseCamera(false);
+        setSelectedImage(uri);
+    };
+
+    const handleSubmit = async (selectedImage, description) => {
+        if (!selectedImage || !description) {
+            Alert.alert("Error", "Por favor, selecciona una imagen y escribe una descripción.");
             return;
         }
-        const base64Image = await loadImageBase64(image.uri);
-        console.log(image)
+
+        let fileUri = selectedImage;
+
+        const formData = new FormData();
+        formData.append("image", {
+            uri: fileUri,
+            name: "photo.jpg",
+            type: "image/jpeg",
+        });
+        formData.append("caption", description);
+
+        console.log(formData);
 
         try {
             const response = await fetch(`${baseUrl}/posts/upload`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
                 },
-                body: JSON.stringify({
-                    file: base64Image,
-                    caption,
-                }),
+                body: formData,
             });
 
-            if (response.status === 201) {
-                const data = await response.json();
-                console.log('Post created successfully:', data);
+            if (response) {
+                router.push('/');
+                Alert.alert("Exito", "Post subido correctamente.");
+                setSelectedImage(null);
+                setDescription("");
             } else {
-                const errorData = await response.json();
-                console.error('Error creating post:', errorData);
+                Alert.alert("Error", "Un error ocurrió mientras se subía el post.");
             }
         } catch (error) {
-            console.error('Server error:', error);
+            console.error("Error subiendo el post:", error);
+            Alert.alert("Error", "Un error ocurrió mientras se subía el post.");
         }
+    };
+
+    const handleUseCamera = () => {
+        setUseCamera((prev) => !prev);
     }
 
-    useEffect(() => {
-        const fetchToken = async () => {
-            try {
-                const storedToken = await AsyncStorage.getItem("token");
-                setToken(storedToken);
-                const storedUser = await AsyncStorage.getItem("user");
-                setUser(JSON.parse(storedUser));
-            } catch (error) {
-                console.error("Error al recuperar el token:", error);
-            }
-        };
+    const handleFlipCamera = () => {
+        setFacing((prev) => prev === 'back' ? 'front' : 'back');
+    };
 
-        fetchToken();
+    useEffect(() => {
+        requestCameraPermission();
+        requestPermission();
     }, []);
 
+
     return (
-        <GestureHandlerRootView style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>New Post</Text>
-                <TouchableOpacity onPress={handleUpload}>
-                    <Ionicons name="send" size={24} color="black" />
+        <SafeAreaView style={styles.container}>
+            {
+                useCamera ? (
+                    <View style={styles.selectedImageContainer}>
+                        <CameraView
+                            facing={facing}
+                            style={styles.selectedImage}
+                            ref={cameraRef}
+                            onPictureTaken={(photo: any) => {
+                                setSelectedImage(photo.uri);
+                                setUseCamera(false);
+                            }}
+                        >
+                            <Pressable
+                                onPress={() => cameraRef?.current?.takePictureAsync?.()
+                                    .then(photo => {
+                                        setSelectedImage(photo.uri);
+                                        setUseCamera(false);
+                                    })}
+                                style={styles.takePictureButton}
+                            >
+                                <Ionicons name="camera" size={24} color="white" />
+                            </Pressable>
+                            <Pressable
+                                onPress={handleFlipCamera}
+                                style={styles.flipCameraButton}
+                            >
+                                <Ionicons name="camera-reverse" size={24} color="white" />
+                            </Pressable>
+                        </CameraView>
+                    </View>
+                ) : (
+                    <View style={styles.selectedImageContainer}>
+                        <Pressable onPress={handleUseCamera} style={styles.camera}>
+                            <Ionicons name="camera" size={24} color="white" />
+                        </Pressable>
+                        <Image source={{ uri: selectedImage || 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' }} style={styles.selectedImage} />
+                    </View>
+                )
+            }
+            <View style={styles.inputContainer}>
+                <Text>
+                    Descripcion:
+                </Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Description"
+                    onChangeText={setDescription}
+                    value={description}
+                />
+            </View>
+            <View>
+                <TouchableOpacity onPressIn={() => handleSubmit(selectedImage, description)}>
+                    <Text style={styles.buttonText}>Subir Post</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.imageContainer}>
-                {image ? (
-                    <Image source={{ uri: image }} style={styles.image} />
-                ) : (
-                    <View style={styles.placeholder}>
-                        <Text style={styles.placeholderText}>No Image Selected</Text>
+            <FlatList
+                data={images}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => handleSelectImage(item.uri)}>
+                        <Image source={{ uri: item.uri }} style={styles.imageThumbnail} />
+                    </TouchableOpacity>
+                )}
+                numColumns={3}
+                onEndReached={() => setPage(page + 1)}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={() => (
+                    <View style={{ padding: 10 }}>
+                        <Text>Cargando más imágenes...</Text>
                     </View>
                 )}
-            </View>
-            <TextInput
-                style={styles.captionInput}
-                placeholder="Write a caption..."
-                value={caption}
-                onChangeText={setCaption}
             />
-            <View style={styles.buttonContainer}>
-                <ImageSelection handleUpload={setImage} />
-                <CameraButton handleUpload={setImage} />
-            </View>
-        </GestureHandlerRootView>
-    )
+        </SafeAreaView>
+    );
 }
-
-export default AddPost
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        marginTop: 49
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        padding: 16,
+        gap: 10,
         alignItems: 'center',
-        padding: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
     },
-    headerText: {
+    imageGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+    },
+    camera: {
+        position: 'absolute',
+        top: 20,
+        right: 20,
+        zIndex: 2,
+    },
+    imageThumbnail: {
+        width: 100,
+        height: 100,
+        margin: 5,
+        borderRadius: 8,
+    },
+    selectedImageContainer: {
+        alignItems: 'center',
+        marginVertical: 16,
+    },
+    selectedImageText: {
         fontSize: 18,
-        fontWeight: 'bold',
+        marginBottom: 8,
     },
-    imageContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 20,
+    selectedImage: {
+        width: '80%',
+        aspectRatio: 1,
+        borderRadius: 8,
     },
-    image: {
+    titleContainer: {
         width: '100%',
-        height: 200,
-        marginBottom: 10,
-        borderRadius: 5,
-    },
-    placeholder: {
-        width: 200,
-        height: 200,
-        justifyContent: 'center',
         alignItems: 'center',
+    },
+    input: {
+        width: '100%',
+        padding: 10,
+        borderColor: '#ccc',
         borderWidth: 1,
-        borderColor: '#ddd',
-        borderRadius: 10,
+        borderRadius: 8,
     },
-    placeholderText: {
-        color: '#aaa',
+    inputContainer: {
+        gap: 8,
+        width: '80%',
     },
-    captionInput: {
-        height: 40,
-        borderColor: '#ddd',
-        borderWidth: 1,
-        borderRadius: 5,
-        paddingHorizontal: 10,
-        margin: 20,
+    button: {
+        backgroundColor: '#007AFF',
+        padding: 10,
+        width: '80%',
+        borderRadius: 8,
+        alignItems: 'center',
     },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 20,
+    buttonText: {
+        color: '#007AFF',
+        fontSize: 16
     },
-})
+    takePictureButton: {
+        position: 'absolute',
+        bottom: 20,
+        left: '50%',
+    },
+    flipCameraButton: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+    },
+});
