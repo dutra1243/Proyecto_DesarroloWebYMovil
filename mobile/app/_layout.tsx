@@ -12,7 +12,10 @@ export default function RootLayout() {
         <PaperProvider>
             <Provider store={store}>
                 <SafeAreaProvider>
-                    <Navigator.Slot />
+                    <Stack>
+                        <Stack.Screen name="index" />
+                        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    </Stack>
                 </SafeAreaProvider>
             </Provider>
         </PaperProvider>

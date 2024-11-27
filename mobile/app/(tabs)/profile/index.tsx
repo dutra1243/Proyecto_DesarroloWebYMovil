@@ -20,7 +20,7 @@ export default function Profile() {
         router.replace("/");
     }
 
-    const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state) => state.auth.user)
     const [token, setToken] = useState<string | null>(null)
 
     useEffect(() => {
@@ -32,7 +32,7 @@ export default function Profile() {
         fetchToken()
     }, [])
 
-    const [profile, setProfile] = useState<{ posts: PostDTO[], user: UserDto }>()
+    const [profile, setProfile] = useState<{ posts: PostDTO[], user: UserDto } | null>(null)
 
     // console.log(user)
     // console.log(token)
@@ -59,13 +59,11 @@ export default function Profile() {
     return (
         <SafeAreaView>
             <View>
-                {(token && profile) && <UserInfo {...profile}></UserInfo>}
+                {(token && profile && profile.user && profile.posts) && <UserInfo {...profile}></UserInfo>}
                 <Button title="Logout" onPress={handleLogout}></Button>
             </View>
             <View>
-                {(token && profile) && <UserPictures {...profile.posts}></UserPictures>}
-            </View>
-            <View>
+                {(token && profile && profile.posts) && <UserPictures {...profile.posts}></UserPictures>}
             </View>
         </SafeAreaView>
     );

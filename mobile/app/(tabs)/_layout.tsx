@@ -14,13 +14,13 @@ export default function TabsLayout() {
         >
             <Tabs
             >
-                <Tabs.Screen name="home" options={{
+                <Tabs.Screen name="home/index" options={{
                     title: "Inicio",
                     headerShown: false,
                     tabBarIcon: ({ focused }) => <Foundation name="home" color={focused ? "blue" : "grey"} size={24} />,
                 }}
                 />
-                <Tabs.Screen name="profile" options={{
+                <Tabs.Screen name="profile/index" options={{
                     title: "Perfil",
                     headerShown: false,
                     tabBarIcon: ({ focused }) => <MaterialCommunityIcons name="account" color={focused ? "blue" : "grey"} size={24} />,

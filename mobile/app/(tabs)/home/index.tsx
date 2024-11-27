@@ -8,7 +8,7 @@ import { baseUrl } from "@/common/constants";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-    const token = useSelector((state: any) => state.auth.token._j)
+    const token = useSelector((state: any) => state.auth.token)
 
     const [posts, setPosts] = useState<PostDTO[]>([]);
 
