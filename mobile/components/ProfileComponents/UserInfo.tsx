@@ -99,114 +99,122 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
     }
 
     return (
-        <View style={{}} >
-            <View style={{flexDirection: "row", gap: 50}} > 
-
-                {props.user.profilePicture !== "" ? <Image style={styles.image} source={{ uri: props.user.profilePicture }} ></Image>
-                    : <Image style={styles.image} source={{ uri: genericProfilePicture }} ></Image>}
-
-                <View style={{flexDirection: "row", gap: 25, flexWrap: "wrap"}}>
-
-                    <View style={{flexDirection: "column", gap: 20}} >
-                        <Text>{props.user.username}</Text>
-                        <Text style={{maxWidth: 100}} >{props.user.description}</Text>
+        <View style={styles.container}>
+            {/* Profile Header */}
+            <View style={styles.header}>
+                <Image
+                    style={styles.profileImage}
+                    source={{ uri: props.user.profilePicture || genericProfilePicture }}
+                />
+                <View style={styles.stats}>
+                    <View style={styles.stat}>
+                        <Text style={styles.statNumber}>{props.posts.length}</Text>
+                        <Text>Posts</Text>
                     </View>
-
-                    {user && props.user.email === user.email ? 
-                    <View style={{flexDirection: "row", gap: 20}} >
-                        <Pressable onPress={handleEdit}  >
-                            <MaterialCommunityIcons size={40} name="account-edit" ></MaterialCommunityIcons>
-                        </Pressable>
-                        <Pressable  onPress={handleLogout} >
-                            <MaterialCommunityIcons size={40} name="logout" ></MaterialCommunityIcons>
+                    <View style={styles.stat}>
+                        <Pressable onPress={handleShowFriends} >
+                            <Text style={styles.statNumber}>{friendsAmount}</Text>
+                            <Text>Friends</Text>
                         </Pressable>
                     </View>
-                    : isFriend ? 
-                        <Pressable onPress={handleRemoveFriend} > 
-                            <MaterialCommunityIcons size={40} name="account-check" ></MaterialCommunityIcons>
-                        </Pressable> : 
-                        <Pressable onPress={handleAddFriend}>
-                            <MaterialCommunityIcons size={40} name="account-plus" ></MaterialCommunityIcons>
-                        </Pressable>}
-
                 </View>
             </View>
-            <View style={{flexDirection: "row", gap: 10}} >
-                <Text>{props.posts.length} posts</Text>
-                <Pressable onPress={handleShowFriends}>
-                    <Text>{friendsAmount} friends</Text>
+
+            {/* User Info */}
+            <Text style={styles.username}>{props.user.username}</Text>
+            <Text style={styles.bio}>{props.user.description}</Text>
+
+            {/* Action Buttons */}
+            <View style={styles.buttons}>
+                {user && props.user.email === user.email ? (
+                    <Pressable style={styles.button} onPress={handleEdit}>
+                        <Text style={styles.buttonText}>Edit Profile</Text>
+                    </Pressable>
+                ) : isFriend ? (
+                    <Pressable style={styles.button} onPress={handleRemoveFriend}>
+                        <Text style={styles.buttonText}>Unfriend</Text>
+                    </Pressable>
+                ) : (
+                    <Pressable style={styles.button} onPress={handleAddFriend}>
+                        <Text style={styles.buttonText}>Add Friend</Text>
+                    </Pressable>
+                )}
+                <Pressable style={styles.button} onPress={handleLogout}>
+                    <Text style={styles.buttonText}>Logout</Text>
                 </Pressable>
             </View>
         </View>
-    )
-}
+    );
+};
 
-export default UserInfo
+export default UserInfo;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        padding: 16,
         backgroundColor: '#fff',
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 8,
+        
     },
     header: {
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 10,
     },
-    profileInfo: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 10,
-    },
-    image: {
-        width: 80,
-        height: 80,
+    profileImage: {
+        width: 100,
+        height: 100,
         borderRadius: 50,
-    },
-    userInfo: {
-        marginLeft: 10,
-    },
-    username: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        borderColor : "#3897f0",
+        backgroundColor: "white",
+        borderWidth: 1.5,
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 8,
     },
     stats: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        paddingVertical: 10,
     },
     stat: {
         alignItems: 'center',
+        marginHorizontal: 16,
     },
     statNumber: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
     },
-    statLabel: {
-        fontSize: 14,
-        color: '#888',
+    username: {
+        marginTop: 8,
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    bio: {
+        marginTop: 4,
+        color: '#666',
     },
     buttons: {
         flexDirection: 'row',
+        marginTop: 16,
         justifyContent: 'space-around',
-        paddingVertical: 10,
     },
     button: {
-        flex: 1,
-        marginHorizontal: 5,
+        backgroundColor: '#3897f0',
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 4,
+        shadowColor: "black",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 8,
     },
-    posts: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    post: {
-        width: '33%',
-        aspectRatio: 1,
-        padding: 1,
-    },
-    postImage: {
-        width: '100%',
-        height: '100%',
+    buttonText: {
+        color: '#fff',
     },
 });

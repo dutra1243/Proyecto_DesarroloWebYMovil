@@ -53,12 +53,20 @@ const friendsList = () => {
   }, [token])
 
   return (
-    <View>
-      {token && profile && <FlatList data={profile.user.friends} renderItem={({item}) => <FriendCard {...item} ></FriendCard>} ></FlatList>}
+    <View style={styles.container} >
+      <View style={{margin: 15}} >
+        {token && profile && <FlatList data={profile.user.friends} renderItem={({item}) => <FriendCard {...item} ></FriendCard>} ></FlatList>}
+      </View>
     </View>
   )
 }
 
 export default friendsList
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    
+},
+})

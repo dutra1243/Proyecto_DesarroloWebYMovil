@@ -94,7 +94,7 @@ const EditModal = () => {
       <View style={{gap :10, margin: 25}} >
         <TextInput value={profileToEdit.username} onChangeText={(text) => setProfileToEdit({...profileToEdit, username :text })} style={styles.textinput} placeholder="Username" />
         <TextInput value={profileToEdit.description} onChangeText={(text) => setProfileToEdit({...profileToEdit, description :text })} style={styles.textinput} placeholder='Description' />
-        <View style={{flexDirection: "row", maxWidth: 400, }} >
+        <View style={styles.buttonContainer}>
             <ImageSelection handleUpload={setProfilePicture} ></ImageSelection>
             <CameraButton handleUpload={setProfilePicture} ></CameraButton>
         </View>
@@ -111,5 +111,8 @@ const styles = StyleSheet.create({
         backgroundColor : "white",
         padding : 15,
         borderRadius: 10
+    },
+    buttonContainer : {
+        
     }
 })

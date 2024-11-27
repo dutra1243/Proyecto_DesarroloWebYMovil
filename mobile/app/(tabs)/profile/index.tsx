@@ -1,16 +1,11 @@
 import { Text, SafeAreaView, View, Button } from 'react-native';
-import { useDispatch } from "react-redux";
-import { logoutThunk } from "@/store/authSlice";
-import { router, useLocalSearchParams } from "expo-router";
 import UserInfo from '@/components/ProfileComponents/UserInfo';
 import UserPictures from '@/components/ProfileComponents/UserPictures';
-import { useSelector } from "react-redux";
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { baseUrl } from '@/common/constants';
 import { PostDTO } from '@/models/post/PostDTO';
 import { UserDto } from '@/models/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { store } from '@/store/store';
 import { ChangeContext } from '@/components/Context/ChangeProvider';
 
 export default function Profile({id} : {id? : string}) {
@@ -71,7 +66,7 @@ export default function Profile({id} : {id? : string}) {
 
     return (
         <SafeAreaView style={{gap :10, margin: 25}} >
-            <View>
+            <View >
                 {(token && profile && profile.user && profile.posts) && <UserInfo {...profile}></UserInfo>}
             </View>
             <View>
