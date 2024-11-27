@@ -4,28 +4,16 @@ import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { PostDTO } from "@/models/post";
 import Feed from "../../../components/FeedComponents/Feed";
+import { baseUrl } from "@/common/constants";
+import { useSelector } from "react-redux";
 
 export default function Home() {
-    const [token, setToken] = useState(null);
-
-    useEffect(() => {
-        const fetchToken = async () => {
-            try {
-                const storedToken = await AsyncStorage.getItem("token");
-                setToken(storedToken);
-                console.log("Token recuperado:", storedToken);
-            } catch (error) {
-                console.error("Error al recuperar el token:", error);
-            }
-        };
-
-        fetchToken();
-    }, []);
+    const token = useSelector((state: any) => state.auth.token._j)
 
     const [posts, setPosts] = useState<PostDTO[]>([]);
 
     useEffect(() => {
-        fetch(process.env.EXPO_PUBLIC_LOCALHOST_FACU + "/posts/feed", {
+        fetch(baseUrl + "/posts/feed", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -33,7 +21,6 @@ export default function Home() {
             }
         }).then(response => response.json())
             .then(data => {
-                console.log("fetched data correctly");
                 setPosts(data);
             });
     }, [token]);
@@ -41,8 +28,7 @@ export default function Home() {
     return (
         <SafeAreaView style={styles.container} >
             <Text>Home</Text>
-            {/* {token && <Text>Token: {token}</Text>} */}
-            <Feed {...posts} ></Feed>
+            {posts.length > 0 && <Feed {...posts} />}
         </SafeAreaView>
     );
 }

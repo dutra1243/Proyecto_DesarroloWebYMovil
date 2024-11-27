@@ -1,15 +1,26 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { PostDTO } from '@/models/post'
 import PostHeader from './PostHeader'
 import PostFooter from './PostFooter'
 
 const Post = (props: PostDTO) => {
+    const [comments, setComments] = useState(props.comments || []);
+
+    const [likes, setLikes] = useState(props.likes || []);
+
+    const handleAddLike = (newLikeID: string[]) => {
+        setLikes(newLikeID);
+    };
+
+    const handleAddComment = (newComment: string) => {
+        setComments([...comments, newComment]);
+    };
     return (
         <View style={styles.container}>
             <PostHeader {...props.user} createdAt={props.createdAt} ></PostHeader>
-            <Image src={props.imageUrl} ></Image>
-            <PostFooter caption={props.caption} likes={props.likes} comments={props.comments} ></PostFooter>
+            <Image source={{ uri: props.imageUrl }} style={styles.postImage} ></Image>
+            <PostFooter _id={props._id} caption={props.caption} likes={props.likes} comments={props.comments} onAddComment={handleAddComment} onAddLike={handleAddLike} ></PostFooter>
         </View>
     )
 }
