@@ -4,13 +4,15 @@ import {useEffect, useState} from "react";
 
 export default function Home() {
     const [token, setToken] = useState(null);
+    const [user, setUser] = useState()
 
     useEffect(() => {
         const fetchToken = async () => {
             try {
                 const storedToken = await AsyncStorage.getItem("token");
                 setToken(storedToken);
-                console.log("Token recuperado:", storedToken);
+                const storedUser = await AsyncStorage.getItem("user");
+                setUser(storedUser);
             } catch (error) {
                 console.error("Error al recuperar el token:", error);
             }
@@ -23,6 +25,7 @@ export default function Home() {
         <SafeAreaView>
             <Text>HomeEE</Text>
             {token && <Text>Token: {token}</Text>}
+            {user && <Text>User: {user}</Text>}
         </SafeAreaView>
     );
 }

@@ -1,6 +1,6 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import {AuthUser} from "../models/user";
+import {StateUser} from "../models/user";
 import {baseUrl} from "@/common/constants";
 import {LoginRequest, LoginResponse, SignUpRequest, SignUpResponse} from "@/models/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -30,8 +30,8 @@ export const signUpThunk = createAsyncThunk<SignUpResponse, SignUpRequest>(
                 password
             })).data;
             thunkAPI.dispatch(loginSuccess(response));
-            console.log('aaa')
-            console.log({response})
+            // console.log('aaa')
+            // console.log({response})
             return response;
         } catch (error) {
             thunkAPI.dispatch(loginFailure(error.response.data));
@@ -51,7 +51,7 @@ export const logoutThunk = createAsyncThunk(
 );
 
 export interface IAuth {
-    user: AuthUser | null;
+    user: StateUser | null;
     token: string | null;
     isLoading: boolean;
     error: string | null;
@@ -72,13 +72,17 @@ const authSlice = createSlice({
             state.isLoading = true;
         },
         loginSuccess: (state, action) => {
-            console.log("loginSuccess", action.payload.token);
+            console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
             state.isLoading = false;
-            state.user = action.payload.user;
+            state.user = {
+                _id: action.payload._id,
+                username: action.payload.username,
+                email: action.payload.email,
+            };
             state.token = action.payload.token;
-            AsyncStorage.setItem("token", action.payload.token).then(() => {
-                console.log("Token guardado en AsyncStorage:", action.payload.token);
-            });
+            console.log('JSON.stringify(state.user): ', JSON.stringify(state.user))
+            AsyncStorage.setItem("token", action.payload.token)
+            AsyncStorage.setItem("user", JSON.stringify(state.user))
         },
         loginFailure: (state, action) => {
             state.isLoading = false;
