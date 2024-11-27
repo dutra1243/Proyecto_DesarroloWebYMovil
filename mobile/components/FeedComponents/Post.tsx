@@ -3,6 +3,7 @@ import React, {useState} from 'react'
 import {CommentDTO, PostDTO} from '@/models/post'
 import PostHeader from './PostHeader'
 import PostFooter from './PostFooter'
+import {baseUrlNotApi} from "@/common/constants";
 
 const Post = (props: PostDTO) => {
     const [comments, setComments] = useState(props.comments || []);
@@ -19,9 +20,13 @@ const Post = (props: PostDTO) => {
     return (
         <View style={styles.container}>
             <PostHeader {...props.user} createdAt={props.createdAt}></PostHeader>
-            <Image source={{uri: props.imageUrl}} style={styles.postImage}></Image>
-            <PostFooter _id={props._id} caption={props.caption} likes={props.likes} comments={comments}
-                        onAddComment={(value) => handleAddComment(value)} onAddLike={handleAddLike}></PostFooter>
+            <Image
+                source={{uri: props.imageUrl.startsWith('https') ? props.imageUrl : `${baseUrlNotApi}/${props.imageUrl}`}}
+                style={styles.postImage}></Image>
+            <PostFooter _id={props._id} caption={props.caption}
+                        likes={props.likes} comments={comments}
+                        onAddComment={(value) => handleAddComment(value)}
+                        onAddLike={handleAddLike}></PostFooter>
         </View>
     )
 }
