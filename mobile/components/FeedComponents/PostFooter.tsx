@@ -1,19 +1,19 @@
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import {Pressable, StyleSheet, Text, View} from 'react-native'
+import React, {useEffect, useState} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector } from 'react-redux';
-import { baseUrl } from '@/common/constants';
-import { CommentDTO } from '@/models/post';
+import {CommentDTO} from '@/models/post';
+import {Button, Icon, TextInput} from "react-native-paper";
 
-const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
-    {
-        _id: string;
-        caption: string;
-        likes: any[];
-        comments: CommentDTO[];
-        onAddComment: (comment: CommentDTO) => void;
-        onAddLike: (likeID: string[]) => void;
-    }
+
+const PostFooter = ({_id, caption, likes, comments, onAddComment, onAddLike}:
+                        {
+                            _id: string;
+                            caption: string;
+                            likes: any[];
+                            comments: CommentDTO[];
+                            onAddComment: (comment: CommentDTO) => void;
+                            onAddLike: (likeID: string[]) => void;
+                        }
 ) => {
     const [token, setToken] = useState(null);
     const [user, setUser] = useState()
@@ -44,16 +44,16 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
 
     const handleAddComment = () => {
         if (newComment.trim()) {
-            fetch(`${baseUrl}/posts/${_id}/comments`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    content: newComment
-                })
-            }
+            fetch(`http://localhost:3001/api/posts/${_id}/comments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        content: newComment
+                    })
+                }
             ).then((res) => res.json())
                 .then((data) => {
                     let newComment: CommentDTO = {
@@ -83,16 +83,14 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({
-
-                })
+                body: JSON.stringify({})
             })
                 .then((res) => res.json())
                 .then((data) => {
                     onAddLike(data.likes);
                 }).catch((error) => {
-                    console.error('Error:', error);
-                })
+                console.error('Error:', error);
+            })
             setLiked(false);
             setLikesLength(likesLength - 1);
         } else {
@@ -102,36 +100,45 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({
-
-                })
+                body: JSON.stringify({})
             })
                 .then((res) => res.json())
                 .then((data) => {
                     onAddLike(data.likes);
                 }).catch((error) => {
-                    console.error('Error:', error);
-                })
+                console.error('Error:', error);
+            })
             setLiked(true);
             setLikesLength(likesLength + 1);
         }
     }
     return (
-        <View>
-            <Text >{caption}</Text>
-            <View>
-                {liked ? (
-                    <View>
-                        <Text onPress={handleClick}>❤️</Text>
-                        <Text>{likesLength} likes</Text>
-                    </View>
-                ) : (
-                    <View>
-                        <Text onPress={handleClick}>🤍</Text>
-                        <Text>{likesLength} likes</Text>
-                    </View>
-                )}
-                <Text>{comments.length} comments</Text>
+        <View style={styles.container}>
+            <Text>{caption}</Text>
+            <View style={styles.secondContainer}>
+                <View style={styles.interactionContainer}>
+                    {liked ? (
+                        <Pressable onPress={handleClick}>
+                            <Icon
+                                size={20}
+                                source="heart"
+                            />
+                        </Pressable>
+                    ) : (
+                        <Pressable onPress={handleClick}>
+                            <Icon
+                                size={20}
+                                source="heart-outline"
+                            />
+                        </Pressable>
+
+                    )}
+                    <Text>{likesLength}</Text>
+                    <Icon size={20} source="comment-outline"/>
+                    <Text>{comments.length}</Text>
+
+                </View>
+
                 {comments.map((comment) => (
                     <Text key={comment._id}>{comment.user.username}: {comment.content}</Text>
                 ))}
@@ -139,12 +146,16 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
 
             <View>
                 <TextInput
-                    style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                    mode="outlined"
+                    style={{height: 30, fontSize: 12, borderRadius: 10}}
                     onChangeText={setNewComment}
                     value={newComment}
                     placeholder="Agrega un comentario.."
                 />
-                <Button title="Comentar" onPress={handleAddComment} />
+                <Button onPress={handleAddComment}>
+                    Comentar
+                </Button>
+
             </View>
         </View>
     )
@@ -152,4 +163,18 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
 
 export default PostFooter
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        padding: 5,
+        marginBottom: 10,
+        gap: 10,
+    },
+    secondContainer: {
+        gap: 10,
+    },
+    interactionContainer: {
+        flexDirection: 'row',
+        gap: 10,
+        alignItems: 'center',
+    }
+})
