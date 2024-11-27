@@ -5,7 +5,7 @@ import { PostDTO } from '@/models/post/PostDTO'
 const UserPictures = ({posts} : { posts : PostDTO[]}) => {
     
 
-    console.log("POSTSSSSSSSSSSSSSSSSSS", posts)
+    // console.log("POSTSSSSSSSSSSSSSSSSSS", posts)
 
     return (
         <View style={{maxHeight : 600, flexDirection: "column", flexWrap: "wrap"}} >

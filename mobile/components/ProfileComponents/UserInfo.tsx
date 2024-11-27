@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { logoutThunk } from '@/store/authSlice'
 import { router } from 'expo-router'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { baseUrl } from '@/common/constants'
 
 
 const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
@@ -19,23 +20,76 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
         router.replace("/");
     }
 
-    const handleEdit = () => {
-        console.log("EDIT PROFILE")
-        router.push({pathname: "/[EditModal]"})
-    }
-
+    
     const [user, setUser] = useState<UserDto | null>(null)
+    const [token, setToken] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchToken = async () => {
-        const storedUser = await AsyncStorage.getItem("user");
-        setUser(JSON.parse(storedUser));
+            const storedToken = await AsyncStorage.getItem("token")
+            setToken(storedToken)
+            const storedUser = await AsyncStorage.getItem("user");
+            setUser(JSON.parse(storedUser));
         }
         fetchToken()
     }, [])
 
     const genericProfilePicture = "https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg"
 
+    const handleEdit = () => {
+        console.log("EDIT PROFILE")
+        router.push({pathname: "/[EditModal]"})
+    }
+
+    const [isFriend, setIsFriend] = useState(false)
+    const [friendsAmount, setFriendsAmount] = useState(props.user.friends.length)
+
+    useEffect(() => {
+        if (user) {
+            setIsFriend(props.user.friends.some((friend) => friend._id === user?._id ))
+        }
+    }, [props.user._id, props.user.friends, user])
+
+    const handleRemoveFriend = () => {
+        fetch(baseUrl + `/user/remove-friend/${props.user._id}`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': `Bearer ${token}`,
+            }
+        }).then(response => { return response.json() })
+        .then((response) => {
+            if (response) {
+                console.log(response)
+                setIsFriend(false)
+                setFriendsAmount(friendsAmount - 1)
+                alert(response.message);
+            }
+        })
+    }
+
+    const handleAddFriend = () => {
+
+        fetch(baseUrl + `/user/add-friend/${props.user._id}`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                name: props.user._id
+            })
+        }).then(response => { return response.json() })
+        .then((response) => {
+            if (response) {
+                console.log(response)
+                setIsFriend(true)
+                setFriendsAmount(friendsAmount + 1)
+            } else {
+            alert(response.message);
+            }
+        })
+    }
 
     return (
         <View style={{}} >
@@ -43,11 +97,14 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
 
                 {props.user.profilePicture !== "" ? <Image style={styles.image} source={{ uri: props.user.profilePicture }} ></Image>
                     : <Image style={styles.image} source={{ uri: genericProfilePicture }} ></Image>}
+
                 <View style={{flexDirection: "row", gap: 25, flexWrap: "wrap"}}>
+
                     <View style={{flexDirection: "column", gap: 20}} >
                         <Text>{props.user.username}</Text>
                         <Text style={{maxWidth: 100}} >{props.user.description}</Text>
                     </View>
+
                     {user && props.user.email === user.email ? 
                     <View style={{flexDirection: "row", gap: 20}} >
                         <Pressable onPress={handleEdit}  >
@@ -57,12 +114,19 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
                             <MaterialCommunityIcons size={40} name="logout" ></MaterialCommunityIcons>
                         </Pressable>
                     </View>
-                    : <MaterialCommunityIcons size={40} name="account-plus" ></MaterialCommunityIcons>}
+                    : isFriend ? 
+                        <Pressable onPress={handleRemoveFriend} > 
+                            <MaterialCommunityIcons size={40} name="account-check" ></MaterialCommunityIcons>
+                        </Pressable> : 
+                        <Pressable onPress={handleAddFriend}>
+                            <MaterialCommunityIcons size={40} name="account-plus" ></MaterialCommunityIcons>
+                        </Pressable>}
+
                 </View>
             </View>
             <View style={{flexDirection: "row", gap: 10}} >
                 <Text>{props.posts.length} posts</Text>
-                <Text>{props.user.friends.length} friends</Text>
+                <Text>{friendsAmount} friends</Text>
             </View>
         </View>
     )

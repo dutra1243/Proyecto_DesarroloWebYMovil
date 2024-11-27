@@ -63,8 +63,9 @@ export default function Profile({id} : {id? : string}) {
         }
     }, [token, user, isChanged])
 
-    console.log("PROFILE>>>>>>", profile )
-    console.log("PROFILE.POSTS>>>>>>>", profile?.posts)
+    // console.log("PROFILE>>>>>>", profile )
+    console.log("FRIENDS>>>>>>>>>>>>", profile?.user.friends)
+    // console.log("PROFILE.POSTS>>>>>>>", profile?.posts)
 
     
 
