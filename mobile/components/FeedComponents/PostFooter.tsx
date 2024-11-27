@@ -44,9 +44,15 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
 
         fetchToken();
     }, []);
-    const [liked, setLiked] = useState(likes.includes(_id));
+    const [liked, setLiked] = useState(false);
     const [likesLength, setLikesLength] = useState(likes.length);
     const [newComment, setNewComment] = useState('');
+
+    useEffect(() => {
+        if (user && likes.includes(user._id)) {
+            setLiked(true);
+        }
+    }, [likes, user])
 
     const handleAddComment = () => {
         if (newComment.trim()) {
