@@ -62,3 +62,25 @@ input {
 button:hover {
     background-color: #3077c3;
 }
+
+.likesComments {
+    display: flex;                 
+    align-items: center;            
+    gap: 10px;  
+}                   
+
+.likes, .like {
+    display: flex;                  
+    align-items: center;            
+    gap: 5px;                
+    cursor: pointer;               
+}
+
+.likeIcon {
+    font-size: 24px;         
+}
+
+
+
+
+

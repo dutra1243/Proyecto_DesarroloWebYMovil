@@ -1,4 +1,3 @@
-// post.tsx
 import { PostHeader } from './postHeader/PostHeader';
 import { PostFooter } from './postFooter/PostFooter';
 import { PostDTO } from '../../models/post/PostDTO';

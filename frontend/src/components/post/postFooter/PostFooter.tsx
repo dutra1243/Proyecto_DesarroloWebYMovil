@@ -112,16 +112,17 @@ export const PostFooter = ({
                 <p><span style={{ fontWeight: 'bold' }}>{username}</span> {caption}</p>
                 <div className='likesComments'>
                     {(liked) ?
-                        <div>
+                        <div className='likes'>
                             <FavoriteIcon color="secondary" onClick={handleClick} />
                             <p>{likesLength} likes</p>
                         </div> :
-                        <div>
+                        <div className='like'>
                             <FavoriteBorderIcon color="secondary" className='likeIcon' onClick={handleClick} />
                             <p>{likesLength} likes</p>
                         </div>
                     }
-                    <p>{comments.length} comments</p>
+                    <p className='comments'>
+                        {comments.length} comments</p>
                     {comments.map((comment) => <p key={comment._id} >{comment.content}</p>)}
                 </div>
 
