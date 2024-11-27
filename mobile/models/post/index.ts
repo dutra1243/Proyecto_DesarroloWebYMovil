@@ -19,3 +19,12 @@ export interface PostDTO {
         username: string;
     };
 }
+
+export interface CommentDTO {
+    _id: string;
+    content: string;
+    user: {
+        _id: string;
+        username: string;
+    };
+}
