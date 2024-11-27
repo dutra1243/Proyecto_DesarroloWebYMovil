@@ -10,7 +10,6 @@ export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
         try {
             thunkAPI.dispatch(loginStart());
             const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', { email, password })).data;
-            console.log({ response });
             thunkAPI.dispatch(loginSuccess(response));
             return response;
         } catch (error) {
@@ -89,7 +88,6 @@ const authSlice = createSlice({
                 username: action.payload.username,
                 email: action.payload.email,
             };
-
             state.token = action.payload.token;
             sessionStorage.setItem("token", action.payload.token);
             sessionStorage.setItem("user", JSON.stringify(state.user));
