@@ -17,7 +17,7 @@ export const Sidebar = () => {
                 <Link to='/' className="sidebarLink">
                     <Home fontSize="large" /> <span>Home</span>
                 </Link>
-                <Link to={`/profile/${userId}`} className="sidebarLink">
+                <Link to={/profile/${userId}} className="sidebarLink">
                     <AccountCircle fontSize="large" /> <span>Profile</span>
                 </Link>
             </div>
@@ -29,4 +29,3 @@ export const Sidebar = () => {
         </div>
     );
 };
-
