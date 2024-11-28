@@ -29,7 +29,7 @@ const runSeed = async (req, res) => {
                 await Post.create(post);
             }
         }
-        await User.create({
+        const prueba = await User.create({
             username: 'prueba',
             email: 'prueba@prueba.com',
             description: faker.lorem.sentence(),
@@ -37,6 +37,16 @@ const runSeed = async (req, res) => {
             profilePicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS65DGqFvGzIj8YQEifkpvsvBFHl8qsLm-hyA&s'
 
         })
+        const imgQty = Math.floor(Math.random() * 40) + 1;
+            for (let j = 0; j < imgQty; j++) {
+                const img = await fetch(imageGeneratorURL)
+                const post = {
+                    user: prueba._id,
+                    imageUrl: img.url,
+                    caption: faker.lorem.sentence(),
+                }
+                await Post.create(post);
+            }
 
         res.status(201).json({ message: 'Seed data created successfully' });
     } catch

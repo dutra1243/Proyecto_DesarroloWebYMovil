@@ -17,6 +17,7 @@ const Post = (props: PostDTO) => {
     const handleAddComment = (newComment: CommentDTO) => {
         setComments([...comments, newComment]);
     };
+
     return (
         <View style={styles.container}>
             <PostHeader {...props.user} createdAt={props.createdAt}></PostHeader>
