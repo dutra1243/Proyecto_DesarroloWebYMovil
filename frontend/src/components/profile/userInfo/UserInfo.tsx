@@ -71,7 +71,7 @@ export const UserInfo = ({ username, profilePicture, isEditable, friends, userId
             {(!isEditable && !isFriend) && (<div className='add-friend-button'><button onClick={addFriend}>Add Friend</button></div>)}
             {isEditable && (
                 <>
-                    <Button variant='outlined' onClick={() => setShowEditModal(true)}>Edit Profile</Button>
+                    <Button className='editProfileButton' variant='outlined' onClick={() => setShowEditModal(true)}>Edit Profile</Button>
                     {showEditModal && <EditProfileModal username={username} description={description} profilePicture={profilePicture} handleUpdate={() => handleUnfriend()}
                         toggleModal={setShowEditModal} />}
                 </>

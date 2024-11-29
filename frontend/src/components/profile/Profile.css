@@ -193,3 +193,7 @@ form {
     padding: 20px; */
     width: 80%;
 }
+
+.editProfileButton:hover {
+    color: white
+}
