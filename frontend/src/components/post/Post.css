@@ -122,7 +122,11 @@ button:hover {
     color: #8e8e8e;
 }
 
-
+.comments {
+    display: grid;
+    justify-content: start;
+    justify-items: start;
+}
 
 .postFooter {
     padding: 10px 15px;
