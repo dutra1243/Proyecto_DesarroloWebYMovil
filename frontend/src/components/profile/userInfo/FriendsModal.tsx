@@ -38,24 +38,30 @@ export const FriendsModal = (props: FriendsModalProps) => {
 
     return (
         <div className="modal">
-            <div className="modal-content">
-                <div className="close" onClick={() => props.toggleModal(false)}>X</div>
+            <div className="modal-content-background">
+                <p className="close" onClick={() => props.toggleModal(false)}>Close</p>
+                <div className="modal-content">
 
-                <h2>Friends List</h2>
-                <ul>
-                    {props.friends.map(friend => (
-                        <li key={friend._id}>
-                            <span>
-                                <img src={friend.profilePicture} alt={friend.username + '\'s profile picture'} />
-                            </span>
-                            <span>{friend.username}</span>
-                            {props.userEditMode && (
-                                <button onClick={() => removeFriend(friend._id)}>Remove</button>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                    <h2>Friends List</h2>
+                    <ul className='unorderedList'>
+                        {props.friends.map(friend => (
+                            <div className='friendCard' >
+                                <li key={friend._id}>
+                                    <span>
+                                        <img className='profile-picture' src={friend.profilePicture} alt={friend.username + '\'s profile picture'} />
+                                    </span>
+                                    <div classname="friendCard-info" >
+                                        <span className='friendUsername' >{friend.username}</span>
+                                        {props.userEditMode && (
+                                            <button className='removeFriend' onClick={() => removeFriend(friend._id)}>Remove</button>
+                                        )}
+                                    </div>
+                                </li>
+                            </div>
+                        ))}
+                    </ul>
+                </div>
+            </  div>
         </div>
     );
 }

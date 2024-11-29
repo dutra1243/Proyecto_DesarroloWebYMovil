@@ -16,7 +16,7 @@ type UserInfoProps = {
     userId: String,
     profilePicture: string,
     isEditable: boolean;
-    friends: FriendsInfo[];
+    friends: FriendsInfo[]; 
     description: string;
     handleUpdate: () => void;
 }
@@ -62,7 +62,7 @@ export const UserInfo = ({ username, profilePicture, isEditable, friends, userId
             {showFriendsModal &&
                 <FriendsModal friends={friends} userId={userId} userEditMode={isEditable} toggleModal={setShowFriendsModal} handleUnfriend={() => handleUnfriend()} />
             }
-            <img src={profilePicture} alt="Profile Picture" />
+            <img className='profile-picture' src={profilePicture} alt="Profile Picture" />
             <h2>{username}</h2>
             <p>{description}</p>
             <div className='friends-card' onClick={() => { setShowFriendsModal(true) }}>

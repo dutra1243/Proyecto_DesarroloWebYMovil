@@ -1,0 +1,171 @@
+.user-pictures {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.user-pictures .post {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.user-pictures img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.user-info .profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.user-info .profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid #020671;
+}
+
+.user-info .profile-username {
+    font-size: 18px;
+    text-align: center;
+    color: #151414;
+}
+
+.user-info > * {
+    color: black;
+}
+
+.unorderedList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.friendCard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+    border-bottom: 1px solid rgb(206, 206, 206);
+}
+
+.friendCard-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.removeFriend {
+    background-color: #f93e3e;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.removeFriend:hover {
+    background-color: #d32f2f;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.80);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: auto;
+}
+
+.modal-content-background {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+
+.modal-content {
+    max-height: 80vh;
+    overflow: auto;
+    background-color: white;
+    padding: 20px;
+    width: auto;
+}
+.close {
+    color: #0000EE;
+}
+
+.close:hover {
+    color: #551A8B;
+    cursor: pointer;
+}
+
+
+.editModal {
+    background-color: rgba(0, 0, 0, 0.80);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: auto;
+}
+
+.editModal-content-background {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.editModal-content {
+    min-width: 75vh;
+    height: 75vh;
+    overflow: auto;
+    background-color: white;
+    padding: 20px;
+    width: auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modalButtons {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.modalButtons button {
+    background-color: #0000EE;
+}
