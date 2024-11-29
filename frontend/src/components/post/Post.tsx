@@ -1,9 +1,9 @@
-// post.tsx
 import { PostHeader } from './postHeader/PostHeader';
 import { PostFooter } from './postFooter/PostFooter';
 import { PostDTO } from '../../models/post/PostDTO';
 import './Post.css';
 import React, { useState } from 'react';
+import { baseUrlNotApi } from '../../common/constants';
 
 export const Post = (props: PostDTO) => {
 

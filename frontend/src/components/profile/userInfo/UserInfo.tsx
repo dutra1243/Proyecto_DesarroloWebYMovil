@@ -78,5 +78,5 @@ export const UserInfo = ({ username, profilePicture, isEditable, friends, userId
             )}
 
         </div>
-    )
-}
+    );
+};
