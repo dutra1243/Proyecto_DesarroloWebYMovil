@@ -1,16 +1,15 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import {AuthUser} from "../models/user";
-import {baseUrl} from "../common/constants.ts";
-import {LoginRequest, LoginResponse} from "../models/auth";
+import { AuthUser } from "../models/user";
+import { baseUrl } from "../common/constants.ts";
+import { LoginRequest, LoginResponse } from "../models/auth";
 
 export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
     "auth/login",
-    async ({email, password}, thunkAPI) => {
+    async ({ email, password }, thunkAPI) => {
         try {
             thunkAPI.dispatch(loginStart());
-            const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', {email, password})).data;
-            console.log({response});
+            const response: LoginResponse = (await axios.post(baseUrl + '/auth/login', { email, password })).data;
             thunkAPI.dispatch(loginSuccess(response));
             return response;
         } catch (error) {
@@ -31,12 +30,12 @@ export const logoutThunk = createAsyncThunk(
 
 export const editProfileThunk = createAsyncThunk(
     "auth/editProfile",
-    async ({_id, username, description, profilePicture}: any, thunkAPI) => {
+    async ({ _id, username, description, profilePicture }: any, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.token;
             const response = await axios.put(
                 `${baseUrl}/user/profile/edit`,
-                {_id, username, description, profilePicture},
+                { _id, username, description, profilePicture },
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -89,7 +88,6 @@ const authSlice = createSlice({
                 username: action.payload.username,
                 email: action.payload.email,
             };
-            ;
             state.token = action.payload.token;
             sessionStorage.setItem("token", action.payload.token);
             sessionStorage.setItem("user", JSON.stringify(state.user));
@@ -123,5 +121,5 @@ const authSlice = createSlice({
     }
 });
 
-export const {loginStart, loginSuccess, loginFailure, logout} = authSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 export default authSlice.reducer;

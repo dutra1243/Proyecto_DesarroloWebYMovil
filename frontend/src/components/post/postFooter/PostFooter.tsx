@@ -16,8 +16,22 @@ export const PostFooter = ({
     username: string;
     caption: string;
     likes: any[];
-    comments: any[];
-    onAddComment: (comment: string) => void;
+    comments: {
+        _id: string,
+        content: string,
+        user: {
+            _id: string,
+            username: string,
+        },
+    }[];
+    onAddComment: (comment: {
+        _id: string,
+        content: string,
+        user: {
+            _id: string,
+            username: string,
+        },
+    }) => void;
     onAddLike: (likeID: string[]) => void;
 }) => {
     const token = useSelector((state: any) => state.auth.token);
@@ -84,7 +98,9 @@ export const PostFooter = ({
             alert('El comentario no puede estar vacío');
         }
     };
-    
+
+
+    console.log(comments)
 
     return (
         <div className="postFooter">

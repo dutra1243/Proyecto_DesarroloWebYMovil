@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { baseUrlNotApi } from '../../common/constants';
 
 export const Post = (props: PostDTO) => {
-
     const [comments, setComments] = useState(props.comments || []);
 
     const [likes, setLikes] = useState(props.likes || []);
@@ -15,7 +14,15 @@ export const Post = (props: PostDTO) => {
         setLikes(newLikeID);
     };
 
-    const handleAddComment = (newComment: string) => {
+    const handleAddComment = (newComment: {
+        _id: string,
+        content: string,
+        user: {
+            _id: string,
+            username: string,
+        },
+    }) => {
+        console.log(newComment)
         setComments([...comments, newComment]);
     };
 
