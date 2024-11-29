@@ -50,7 +50,7 @@ export const FriendsModal = (props: FriendsModalProps) => {
                                     <span>
                                         <img className='profile-picture' src={friend.profilePicture} alt={friend.username + '\'s profile picture'} />
                                     </span>
-                                    <div classname="friendCard-info" >
+                                    <div className="friendCard-info" >
                                         <span className='friendUsername' >{friend.username}</span>
                                         {props.userEditMode && (
                                             <button className='removeFriend' onClick={() => removeFriend(friend._id)}>Remove</button>
