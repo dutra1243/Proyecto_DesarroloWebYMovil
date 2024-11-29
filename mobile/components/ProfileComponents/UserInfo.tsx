@@ -22,7 +22,7 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
         router.replace("/");
     }
 
-    
+
     const [user, setUser] = useState<UserDto | null>(null)
     const [token, setToken] = useState<string | null>(null)
     const [isChanged, setIsChanged] = useContext(ChangeContext)
@@ -38,8 +38,7 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
     }, [])
 
     const handleEdit = () => {
-        console.log("EDIT PROFILE")
-        router.push({pathname: "/[EditModal]"})
+        router.push({ pathname: "/[EditModal]" })
     }
 
     const [isFriend, setIsFriend] = useState(false)
@@ -47,7 +46,7 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
 
     useEffect(() => {
         if (user) {
-            setIsFriend(props.user.friends.some((friend) => friend._id === user?._id ))
+            setIsFriend(props.user.friends.some((friend) => friend._id === user?._id))
         }
     }, [props.user._id, props.user.friends, user])
 
@@ -59,15 +58,14 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
                 'authorization': `Bearer ${token}`,
             }
         }).then(response => { return response.json() })
-        .then((response) => {
-            if (response) {
-                console.log(response)
-                setIsFriend(false)
-                setFriendsAmount(friendsAmount - 1)
-                setIsChanged(!isChanged)
-                alert(response.message);
-            }
-        })
+            .then((response) => {
+                if (response) {
+                    setIsFriend(false)
+                    setFriendsAmount(friendsAmount - 1)
+                    setIsChanged(!isChanged)
+                    alert(response.message);
+                }
+            })
     }
 
     const handleAddFriend = () => {
@@ -82,20 +80,19 @@ const UserInfo = (props: { posts: PostDTO[], user: UserDto }) => {
                 name: props.user._id
             })
         }).then(response => { return response.json() })
-        .then((response) => {
-            if (response) {
-                console.log(response)
-                setIsFriend(true)
-                setFriendsAmount(friendsAmount + 1)
-                setIsChanged(!isChanged)
-            } else {
-                alert(response.message);
-            }
-        })
+            .then((response) => {
+                if (response) {
+                    setIsFriend(true)
+                    setFriendsAmount(friendsAmount + 1)
+                    setIsChanged(!isChanged)
+                } else {
+                    alert(response.message);
+                }
+            })
     }
 
     const handleShowFriends = () => {
-        router.push({pathname : "/friendsList/[id]", params : {id: props.user._id }})
+        router.push({ pathname: "/friendsList/[id]", params: { id: props.user._id } })
     }
 
     return (
@@ -158,7 +155,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 8,
-        
+
     },
     header: {
         flexDirection: 'row',
@@ -169,7 +166,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-        borderColor : "#3897f0",
+        borderColor: "#3897f0",
         backgroundColor: "white",
         borderWidth: 1.5,
         shadowColor: "black",

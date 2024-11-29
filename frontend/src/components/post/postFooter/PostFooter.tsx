@@ -99,9 +99,6 @@ export const PostFooter = ({
         }
     };
 
-
-    console.log(comments)
-
     return (
         <div className="postFooter">
             <p className="caption">

@@ -20,22 +20,9 @@ export const Feed = () => {
             }
         }).then(response => response.json())
             .then(data => {
-                console.log("fetched data", data)
                 setPosts(data)
             })
     }, [token])
-
-    // if (typeof (posts) === 'object') {
-
-    //     console.log(typeof (posts))
-
-    //     return (
-    //         <>
-    //             <Sidebar />
-    //             <h1>Not authorized</h1>
-    //         </>
-    //     )
-    // }
 
 
     const array = posts ? new Array(posts.length).fill(null) : [];

@@ -22,7 +22,6 @@ export const Post = (props: PostDTO) => {
             username: string,
         },
     }) => {
-        console.log(newComment)
         setComments([...comments, newComment]);
     };
 

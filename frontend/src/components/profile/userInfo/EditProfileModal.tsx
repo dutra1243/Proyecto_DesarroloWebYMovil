@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { baseUrl } from '../../../common/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { editProfileThunk } from "../../../store/authSlice.ts";
-import { Cancel, Save} from '@mui/icons-material';
+import { Cancel, Save } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
 type EditProfileModalProps = {
@@ -23,7 +23,6 @@ export const EditProfileModal = ({ username, profilePicture, description, toggle
     const id = useSelector((state: any) => state.auth.user._id)
 
     const handleSubmit = async (e) => {
-        console.log('handleSubmit!')
         e.preventDefault();
         await dispatch(editProfileThunk({
             _id: id,
@@ -57,8 +56,8 @@ export const EditProfileModal = ({ username, profilePicture, description, toggle
                         <input type="text" id="profilePicture" value={newProfilePicture}
                             onChange={(e) => setNewProfilePicture(e.target.value)} />
                         <div className="modalButtons"  >
-                            <Button className='edit-button' onClick={handleSubmit} startIcon={<Save/>}>Save</Button>
-                            <Button className='edit-button' onClick={() => toggleModal(false)} startIcon={<Cancel/>} >Cancel</Button>
+                            <Button className='edit-button' onClick={handleSubmit} startIcon={<Save />}>Save</Button>
+                            <Button className='edit-button' onClick={() => toggleModal(false)} startIcon={<Cancel />} >Cancel</Button>
                         </div>
                     </form>
                 </div>

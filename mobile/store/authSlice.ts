@@ -1,9 +1,9 @@
 
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import {StateUser} from "../models/user";
-import {baseUrl} from "@/common/constants";
-import {LoginRequest, LoginResponse, SignUpRequest, SignUpResponse} from "@/models/auth";
+import { StateUser } from "../models/user";
+import { baseUrl } from "@/common/constants";
+import { LoginRequest, LoginResponse, SignUpRequest, SignUpResponse } from "@/models/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const loginThunk = createAsyncThunk<LoginResponse, LoginRequest>(
@@ -35,8 +35,6 @@ export const signUpThunk = createAsyncThunk<SignUpResponse, SignUpRequest>(
                 password
             })).data;
             thunkAPI.dispatch(loginSuccess(response));
-            // console.log('aaa')
-            // console.log({response})
             return response;
         } catch (error) {
             thunkAPI.dispatch(loginFailure(error.response.data));

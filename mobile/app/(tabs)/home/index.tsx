@@ -42,7 +42,9 @@ export default function Home() {
 
     return (
         <SafeAreaView style={styles.container} >
-            <Text>Home</Text>
+            <View style={styles.header}>
+                <Text style={styles.text}>Fakegram</Text>
+            </View>
             {posts.length > 0 && <Feed {...posts} />}
         </SafeAreaView>
     );
@@ -55,6 +57,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     text: {
-        fontSize: 20,
+        fontSize: 23,
+        fontFamily: "Playwrite GB S",
+        lineHeight: 36, // 1.8 * 20
+        backgroundClip: "text",
+        marginLeft: 10,
     },
-})
+    header: {
+        backgroundColor: "white",
+        height: 50,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+});

@@ -47,7 +47,6 @@ export const Profile = () => {
                     profilePicture: data.user.profilePicture,
                     description: data.user.description
                 })
-                console.log(username, data.user.username)
                 setIsEditable(username === data.user.username)
             })
     }, [userId, updateProfile])
@@ -60,7 +59,7 @@ export const Profile = () => {
     return (
         <>
             <Sidebar />
-            {selectedPost && 
+            {selectedPost &&
                 <div className='postModal' onClick={exitPostModal}>
                     <div className='postModal-background'>
                         <div className='postModal-content' >
