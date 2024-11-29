@@ -78,7 +78,7 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
 
     const handleClick = () => {
         if (liked) {
-            fetch(`http://localhost:3001/api/posts/${_id}/like`, {
+            fetch(baseUrl + `/posts/${_id}/like`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ const PostFooter = ({ _id, caption, likes, comments, onAddComment, onAddLike }:
             setLiked(false);
             setLikesLength(likesLength - 1);
         } else {
-            fetch(`http://localhost:3001/api/posts/${_id}/like`, {
+            fetch(baseUrl + `/posts/${_id}/like`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
