@@ -24,6 +24,7 @@
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -60,7 +61,6 @@
     background: linear-gradient(90deg, #8e2de2, #f64f59, #4facfe, #f093fb);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    line-height: 1.8; /* Ajusta este valor según necesites */
-    /*box-decoration-break: clone;*/
-    /*-webkit-box-decoration-break: clone;*/
+    line-height: 1.8;
+
 }
