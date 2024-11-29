@@ -2,6 +2,7 @@ import React from 'react'
 import {useDispatch} from "react-redux";
 import {logoutThunk} from "../../store/authSlice.ts";
 import {useNavigate} from "react-router-dom";
+import './Logout.css'
 
 
 export const Logout = () => {
@@ -24,8 +25,8 @@ export const Logout = () => {
 
 
     return (
-        <div>
-            <button onClick={handleLogout}
+        <div >
+            <button id='logoutButton' onClick={handleLogout}
                 // disabled={isLoading}
                     className="form-button"
             >

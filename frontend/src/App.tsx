@@ -70,7 +70,9 @@ function App() {
     ])
     return (
         <>
-            <RouterProvider router={router} />
+            <div className='app'>
+                <RouterProvider router={router} />
+            </div>
         </>
     )
 }

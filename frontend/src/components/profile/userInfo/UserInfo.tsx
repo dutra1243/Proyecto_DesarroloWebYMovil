@@ -16,7 +16,7 @@ type UserInfoProps = {
     userId: String,
     profilePicture: string,
     isEditable: boolean;
-    friends: FriendsInfo[];
+    friends: FriendsInfo[]; 
     description: string;
     handleUpdate: () => void;
 }
@@ -62,7 +62,7 @@ export const UserInfo = ({ username, profilePicture, isEditable, friends, userId
             {showFriendsModal &&
                 <FriendsModal friends={friends} userId={userId} userEditMode={isEditable} toggleModal={setShowFriendsModal} handleUnfriend={() => handleUnfriend()} />
             }
-            <img  src={profilePicture} alt="Profile Picture" />
+            <img className='profile-picture' src={profilePicture} alt="Profile Picture" />
             <h2>{username}</h2>
             <p>{description}</p>
             <div className='friends-card' onClick={() => { setShowFriendsModal(true) }}>
@@ -71,7 +71,7 @@ export const UserInfo = ({ username, profilePicture, isEditable, friends, userId
             {(!isEditable && !isFriend) && (<div className='add-friend-button'><button onClick={addFriend}>Add Friend</button></div>)}
             {isEditable && (
                 <>
-                    <Button variant='outlined' onClick={() => setShowEditModal(true)}>Edit Profile</Button>
+                    <Button className='editProfileButton' variant='outlined' onClick={() => setShowEditModal(true)}>Edit Profile</Button>
                     {showEditModal && <EditProfileModal username={username} description={description} profilePicture={profilePicture} handleUpdate={() => handleUnfriend()}
                         toggleModal={setShowEditModal} />}
                 </>

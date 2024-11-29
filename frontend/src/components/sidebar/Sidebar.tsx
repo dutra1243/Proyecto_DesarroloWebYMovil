@@ -9,10 +9,13 @@ export const Sidebar = () => {
 
     return (
         <div className='sidebar'>
-            {/* Logo */}
-            <img src="/fakegram.png" alt="Fakegram Logo" className="logo" />
 
-            {/* Links */}
+            {/* <img src="/fakegram.png" alt="Fakegram Logo" className="logo" /> */}
+
+            <h2 className='fakegram-name sidebarLogo' >
+                Fakegram
+            </h2>
+
             <div className='links'>
                 <Link to='/' className="sidebarLink">
                     <Home fontSize="large" /> <span>Home</span>
@@ -22,11 +25,9 @@ export const Sidebar = () => {
                 </Link>
             </div>
 
-            {/* Logout */}
             <div className="logout">
                 <Logout />
             </div>
         </div>
     );
 };
-

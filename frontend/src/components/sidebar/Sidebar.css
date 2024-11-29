@@ -1,5 +1,5 @@
 .sidebar {
-    width: 20vh;
+    min-width: 30vh;
     height: 100vh;
     background-color: #ffffff;
     color: #333;
@@ -15,9 +15,11 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
-.logo {
-    width: 10vh;
+.sidebarLogo {
+    /* width: auto; */
+    font-size: 34px;
     margin-bottom: 2em;
+    padding: 50
 }
 .links {
     display: flex;

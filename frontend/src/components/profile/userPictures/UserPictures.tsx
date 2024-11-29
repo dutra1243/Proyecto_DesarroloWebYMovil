@@ -4,6 +4,7 @@ import { baseUrl } from '../../../common/constants'
 import { PostDTO } from '../../../models/post/PostDTO'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { baseUrlNotApi } from '../../../common/constants'
 
 type UserPicturesProps = {
     id: String;
@@ -35,7 +36,7 @@ export const UserPictures = ({ id, openPostModal }: UserPicturesProps) => {
         <div className="user-pictures">
             {posts?.map(post => (
                 <div key={post._id} className="post" onClick={() => openPostModal(post)}>
-                    <img src={post.imageUrl} alt="Post" />
+                    <img src={post.imageUrl.startsWith('https') ? post.imageUrl : `${baseUrlNotApi}/${post.imageUrl}`} alt="Post" />
                 </div>
             ))}
         </div>

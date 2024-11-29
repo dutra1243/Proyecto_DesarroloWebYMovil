@@ -30,7 +30,7 @@ export const Post = (props: PostDTO) => {
         <>
             <div className='post'>
                 <PostHeader user={props.user} createdAt={props.createdAt} />
-                <img src={props.imageUrl.startsWith('https') ? props.imageUrl : `${baseUrlNotApi}/${props.imageUrl}`} alt="post" />
+                <img className='postImage' src={props.imageUrl.startsWith('https') ? props.imageUrl : `${baseUrlNotApi}/${props.imageUrl}`} alt="post" />
                 <PostFooter
                     _id={props._id}
                     username={props.user.username}
