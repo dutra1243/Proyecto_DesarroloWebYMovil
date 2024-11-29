@@ -52,11 +52,22 @@ export const Profile = () => {
             })
     }, [userId, updateProfile])
 
+    const exitPostModal = () => {
+        setSelectedPost(undefined)
+    }
+
 
     return (
         <>
             <Sidebar />
-            {selectedPost && <Post {...selectedPost} />}
+            {selectedPost && 
+                <div className='postModal' onClick={exitPostModal}>
+                    <div className='postModal-background'>
+                        <div className='postModal-content' >
+                            <Post {...selectedPost} />
+                        </div>
+                    </div>
+                </div>}
             <UserInfo username={user.username} handleUpdate={() => handleUpdateProfile()} userId={userId} profilePicture={user.profilePicture} description={user.description} friends={user.friends} isEditable={isEditable} />
             {selectedPost && (
                 <div
