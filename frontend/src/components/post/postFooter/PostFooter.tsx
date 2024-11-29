@@ -41,6 +41,8 @@ export const PostFooter = ({
     const [likesLength, setLikesLength] = useState(likes.length);
     const [newComment, setNewComment] = useState('');
 
+    const [showComments, setShowComments] = useState(false)
+
 
     const handleLike = () => {
         if (liked) {
@@ -90,7 +92,7 @@ export const PostFooter = ({
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    onAddComment(data);
+                    onAddComment({...data, user: { id: user._id, username: user.username} });
                     setNewComment('');
                 })
                 .catch((error) => console.error('Error:', error));
@@ -99,8 +101,15 @@ export const PostFooter = ({
         }
     };
 
+    const handleShowComments = () => {
+        console.log("show comments")
+        setShowComments(true)
+    }
 
-    console.log(comments)
+    const handleHideComments = () => {
+        console.log("hide comments")
+        setShowComments(false)
+    }
 
     return (
         <div className="postFooter">
@@ -119,15 +128,23 @@ export const PostFooter = ({
             </div>
 
             <div className="comments">
-                {comments.slice(0, 2).map((comment) => (
-                    <p key={comment._id}>
-                        <strong>{comment.username}</strong> {comment.content}
-                    </p>
+                {showComments ? 
+                    comments.map((comment) => (
+                        <p key={comment._id}>
+                            <strong>{comment.user.username}</strong> {comment.content}
+                        </p>))
+                    : comments.slice(0, 2).map((comment) => (
+                        <p key={comment._id}>
+                            <strong>{comment.user.username}</strong> {comment.content}
+                        </p>
                 ))}
-                {comments.length > 2 && (
-                    <p className="viewAllComments">View all {comments.length} comments</p>
-                )}
             </div>
+                {comments.length > 2 && !showComments && (
+                    <p onClick={handleShowComments} className="viewAllComments">View all {comments.length} comments</p>
+                )}
+                {showComments && (
+                    <p onClick={handleHideComments} className="viewAllComments">Hide all {comments.length} comments</p>
+                )}
             <div className="addComment">
                 <input
                     type="text"

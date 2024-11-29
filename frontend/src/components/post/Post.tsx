@@ -26,6 +26,8 @@ export const Post = (props: PostDTO) => {
         setComments([...comments, newComment]);
     };
 
+    console.log(props.comments)
+
     return (
         <>
             <div className='post'>
