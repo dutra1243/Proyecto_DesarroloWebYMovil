@@ -163,9 +163,10 @@ form {
     margin-bottom: 20px;
     display: flex;
     justify-content: center;
-
+    gap: 120px;
+    margin-top: 50px;
 }
 
-.modalButtons button {
-    background-color: #0000EE;
+.modalButtons .edit-button {
+    background-color: white;
 }

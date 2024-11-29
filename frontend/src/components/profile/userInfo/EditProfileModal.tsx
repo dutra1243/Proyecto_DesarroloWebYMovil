@@ -57,8 +57,8 @@ export const EditProfileModal = ({ username, profilePicture, description, toggle
                         <input type="text" id="profilePicture" value={newProfilePicture}
                             onChange={(e) => setNewProfilePicture(e.target.value)} />
                         <div className="modalButtons"  >
-                            <Button onClick={handleSubmit} startIcon={<Save/>}>Save</Button>
-                            <Button onClick={() => toggleModal(false)} startIcon={<Cancel/>} >Cancel</Button>
+                            <Button className='edit-button' onClick={handleSubmit} startIcon={<Save/>}>Save</Button>
+                            <Button className='edit-button' onClick={() => toggleModal(false)} startIcon={<Cancel/>} >Cancel</Button>
                         </div>
                     </form>
                 </div>
